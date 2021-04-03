@@ -1,6 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
-// const router = require("./router")
+const router = require("./router")
 
 class App {
     constructor() {
@@ -32,7 +32,7 @@ class App {
         this.app.use(express.json())
     }
     setRouter() {
-        // this.app.use(router)
+        this.app.use(router)
         this.app.get("/", (req, res) => {
             res.send("hello")
         })
