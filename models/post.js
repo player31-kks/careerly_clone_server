@@ -20,5 +20,20 @@ const PostSchema = new Schema(
     }
 )
 
+PostSchema.virtual("sharedCnt").get(function () {
+    return this.shared.length
+})
+
+PostSchema.virtual("recommendedCnt").get(function () {
+    return this.recommended.length
+})
+
+PostSchema.virtual("commentCnt").get(function () {
+    return this.comment.length
+})
+
+PostSchema.set("toObject", { virtuals: true })
+PostSchema.set("toJSON", { virtuals: true })
+
 const Post = model("Post", PostSchema)
 module.exports = Post
