@@ -24,5 +24,16 @@ const UserSchema = new Schema(
     }
 )
 
+UserSchema.virtual("followerCnt").get(function () {
+    return this.follower.length
+})
+
+UserSchema.virtual("followingCnt").get(function () {
+    return this.following.length
+})
+
+UserSchema.set("toObject", { virtuals: true })
+UserSchema.set("toJSON", { virtuals: true })
+
 const User = model("User", UserSchema)
 module.exports = User
