@@ -1,25 +1,12 @@
-const { Schema, model, Types } = require("mongoose")
+const mongoose = require("mongoose")
 
-const CommentSchema = new Schema(
-    {
-        title: { type: String, required: true },
-        description: { type: String, required: true },
-        selection: { type: [String] },
-        user: { type: String, required: true, ref: "User" },
-        result: {
-            type: [
-                {
-                    user: { type: Types.ObjectId, ref: "User", required: true },
-                    select: { type: Number },
-                },
-            ],
-        },
-        comment: { type: [{ type: Types.ObjectId, ref: Comment }] },
-    },
-    {
-        timestamps: true,
-    }
-)
+const CommentSchema = new mongoose.Schema({
+    cotent: { type: String, required: true },
+    // category:
+    user: { type: Types.ObjectId, required: true, ref: "User" },
+    createAt: Date,
+    updateAt: Date,
+})
 
-const User = model("User", UserSchema)
-module.exports = User
+const Comment = model("Comment", CommentSchema)
+module.exports = Comment
