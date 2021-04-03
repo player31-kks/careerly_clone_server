@@ -13,5 +13,6 @@ const router = Router()
 //     })
 
 router.use("/", require("./Member"))
+router.use("/post", require("./Post"))
 
 module.exports = router

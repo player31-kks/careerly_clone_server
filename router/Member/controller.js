@@ -1,7 +1,6 @@
 const { User, Post } = require("../../models")
 const { isValidObjectId } = require("mongoose")
 const jwt = require("jsonwebtoken")
-const { ESRCH } = require("node:constants")
 
 exports.login = async (req, res, next) => {
     const { email, password } = req.body
@@ -82,14 +81,45 @@ exports.getUser = async (req, res, next) => {
     const userId = res.locals.user
     if (!isValidObjectId(userId))
         return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
-    const [user, mypost] = new Promise.all([
-        User.findById(userId).select(["name", "role"]),
-        Post.find({ recommended: { $in: userId } }).select([
-            "content",
-            "createAt",
-        ]),
-    ])
+    try {
+        const [user, posts] = new Promise.all([
+            User.findById(userId).select(["name", "role"]),
+            Post.find({ recommended: { $in: userId } }).select([
+                "content",
+                "createAt",
+            ]),
+        ])
+        user["followerCnt"] = user.followerCnt
+        user["followingCnt"] = user.followingCnt
+        posts.map((post) => {
+            post["sharedCnt"] = post.sharedCnt
+            post["recommendedCnt"] = post.recommendedCnt
+            post["commentCnt"] = post.commentCnt
+            return post
+        })
+        return res.send({ result: { user, posts } })
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({ err: err.message })
+    }
 }
-exports.editUser = async (req, res, next) => {}
-exports.findPassword = async (req, res, next) => {}
-exports.editPassword = async (req, res, next) => {}
+exports.editUser = async (req, res, next) => {
+    const userId = res.locals.user._id
+    if (!isValidObjectId(userId))
+        return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
+    try {
+        await User.findByIdAndUpdate(...req.body)
+        return res.send({ success: true })
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({ err: err.message })
+    }
+}
+exports.findPassword = async (req, res, next) => {
+    const { email } = req.body
+    return res.send({ email })
+}
+exports.editPassword = async (req, res, next) => {
+    const { email } = req.body
+    return res.send({ email })
+}
