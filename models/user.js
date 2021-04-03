@@ -15,8 +15,8 @@ const UserSchema = new Schema(
             type: [{ school: { type: String }, major: { type: String } }],
         },
         usrImg: { type: String },
-        follower: { type: [{ type: Types.ObjectId, ref: "user" }] },
-        following: { type: [{ type: Types.ObjectId, ref: "user" }] },
+        follower: { type: [{ type: Types.ObjectId, ref: "User" }] },
+        following: { type: [{ type: Types.ObjectId, ref: "User" }] },
         phone: { type: String, required: true },
     },
     {
@@ -24,5 +24,5 @@ const UserSchema = new Schema(
     }
 )
 
-const User = model("user", UserSchema)
+const User = model("User", UserSchema)
 module.exports = User
