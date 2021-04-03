@@ -21,5 +21,5 @@ const VoteSchema = new Schema(
     }
 )
 
-const Vote = model("Vote", UserSchema)
+const Vote = model("Vote", VoteSchema)
 module.exports = Vote

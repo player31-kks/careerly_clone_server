@@ -6,13 +6,13 @@ const PostSchema = new Schema(
         url: { type: String, required: true },
         user: { type: Types.ObjectId, required: true, ref: "User" },
         shared: {
-            type: [{ type: Type.ObjectId, required: true, ref: "User" }],
+            type: [{ type: Types.ObjectId, required: true, ref: "User" }],
         },
         recommended: {
-            type: [{ type: Type.ObjectId, required: true, ref: "User" }],
+            type: [{ type: Types.ObjectId, required: true, ref: "User" }],
         },
         comment: {
-            type: [{ type: Type.ObjectId, required: true, ref: "Comment" }],
+            type: [{ type: Types.ObjectId, required: true, ref: "Comment" }],
         },
     },
     {

@@ -1,6 +1,6 @@
-const mongoose = require("mongoose")
+const { Schema, model, Types } = require("mongoose")
 
-const CommentSchema = new mongoose.Schema(
+const CommentSchema = Schema(
     {
         cotent: { type: String, required: true },
         user: { type: Types.ObjectId, required: true, ref: "User" },
