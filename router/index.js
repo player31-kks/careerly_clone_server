@@ -4,11 +4,14 @@ const basename = path.basename(__filename)
 const { Router } = require("express")
 const router = Router()
 
-fs.readdirSync(__dirname)
-    .filter((folder) => {
-        return folder !== basename
-    })
-    .forEach((folder) => {
-        router.use("/", require(folder))
-    })
+// fs.readdirSync(__dirname)
+//     .filter((folder) => {
+//         return folder !== basename
+//     })
+//     .forEach((folder) => {
+//         router.use("/", require(`./${folder}`))
+//     })
+
+router.use("/", require("./Member"))
+
 module.exports = router
