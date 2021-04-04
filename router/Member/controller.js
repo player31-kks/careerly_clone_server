@@ -1,5 +1,6 @@
 const { User, Post } = require("../../models")
 const { isValidObjectId } = require("mongoose")
+require("dotenv").config()
 const jwt = require("jsonwebtoken")
 
 exports.login = async (req, res, next) => {
@@ -22,7 +23,7 @@ exports.login = async (req, res, next) => {
     }
 }
 exports.register = async (req, res, next) => {
-    const { name, email, password } = req.body
+    const { name, email, password, role, phone } = req.body
 
     if (typeof name !== "string")
         return res.status(400).send({ err: "이름 형식이 틀립니다." })
@@ -31,16 +32,15 @@ exports.register = async (req, res, next) => {
     if (typeof password !== "string")
         return res.status(400).send({ err: "비밀번호가 형식이 틀렸습니다." })
 
-    const user = new User({
-        name,
-        email,
-        password,
-    })
+    const user = await User.findOne({ email })
+    if (user)
+        return res.status(400).send({ err: "이미 존재하는 사용자입니다." })
+
+    const NewUser = new User({ ...req.body })
     try {
-        await user.save()
+        await NewUser.save()
         return res.send({ success: true })
     } catch (err) {
-        console.log(err)
         return res.status(400).send({ err: err.message })
     }
 }
@@ -51,11 +51,11 @@ exports.findMemmberByQuery = async (req, res, next) => {
     if (search) {
         try {
             // const users = await User.find().regx("name", `/${search}/`)
-            const users = await User.find({ name: search }).select([
-                "name",
-                "role",
-                "userImg",
-            ])
+            const users = await User.find({ name: search }).select({
+                name: 1,
+                role: 1,
+                userImg: 1,
+            })
             return res.send({ result: users })
         } catch (err) {
             console.log(err)

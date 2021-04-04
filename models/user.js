@@ -24,16 +24,18 @@ const UserSchema = new Schema(
     }
 )
 
-UserSchema.virtual("followerCnt").get(function () {
-    return this.follower.length
-})
+// UserSchema.virtual("followerCnt").get(function () {
+//     if (this.follower) return this.follower.length
+//     else return 0
+// })
 
-UserSchema.virtual("followingCnt").get(function () {
-    return this.following.length
-})
+// UserSchema.virtual("followingCnt").get(function () {
+//     if (this.following) return this.follower.length
+//     else return 0
+// })
 
-UserSchema.set("toObject", { virtuals: true })
-UserSchema.set("toJSON", { virtuals: true })
+// UserSchema.set("toObject", { virtuals: true })
+// UserSchema.set("toJSON", { virtuals: true })
 
 const User = model("User", UserSchema)
 module.exports = User

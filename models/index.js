@@ -21,4 +21,9 @@ fs.readdirSync(__dirname)
         const modelName = model.collection.collectionName
         DB[capitalize(modelName)] = model
     })
-console.log(DB)
+
+DB.Post = require("./post")
+DB.Comment = require("./comment")
+DB.User = require("./user")
+DB.Vote = require("./vote")
+module.exports = DB

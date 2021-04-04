@@ -3,7 +3,7 @@ const { Schema, model, Types } = require("mongoose")
 const PostSchema = new Schema(
     {
         content: { type: String, required: true },
-        url: { type: String, required: true },
+        url: { type: String },
         user: { type: Types.ObjectId, required: true, ref: "User" },
         shared: {
             type: [{ type: Types.ObjectId, required: true, ref: "User" }],
