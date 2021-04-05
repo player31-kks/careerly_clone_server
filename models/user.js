@@ -29,7 +29,6 @@ const UserSchema = new Schema(
         userImg: { type: String },
         follower: { type: [{ type: Types.ObjectId, ref: "User" }] },
         following: { type: [{ type: Types.ObjectId, ref: "User" }] },
-        phone: { type: String, required: true },
     },
     {
         timestamps: true,
