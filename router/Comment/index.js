@@ -1,11 +1,10 @@
-
 const { Router } = require("express")
 const CommentController = require("./controller")
 const CommentRouter = Router()
 
 CommentRouter.post("/comment", CommentController.postComment)
-CommentRouter.get("/comment/:postId", MemeberController.getComment)
-CommentRouter.patch("/comment/:postId", MemeberController.updateComment)
-CommentRouter.delete("/comment", MemeberController.deleteComment)
+CommentRouter.get("/comment/:postId", CommentController.getComment)
+CommentRouter.patch("/comment/:postId", CommentController.updateComment)
+CommentRouter.delete("/comment", CommentController.deleteComment)
 
 module.exports = CommentRouter

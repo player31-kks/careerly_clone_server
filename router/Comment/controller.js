@@ -11,7 +11,7 @@ exports.postComment = async (req, res, next) => {
     var NewComment = new Comment({
         content,
         user: userId,
-        post: postId
+        post: postId,
     })
     await NewComment.save()
     return res.send({ success: true })
@@ -30,6 +30,5 @@ exports.getComment = async (req, res, next) => {
     // 각각의 코멘트 마다 userId를 가져와서
     const user = await User.findById(userId)
 
-
-    return res.send({ result: user comment })
+    return res.send({ result: { user, comment } })
 }
