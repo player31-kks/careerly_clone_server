@@ -1,4 +1,4 @@
-const { Comment, Post, Vote } = require("../../models")
+const { Comment, Post, Vote, User } = require("../../models")
 const { isValidObjectId } = require("mongoose")
 
 exports.postComment = async (req, res, next) => {
@@ -25,5 +25,11 @@ exports.deleteComment = async (req, res, next) => {
 exports.getComment = async (req, res, next) => {
     const { postId } = req.params
 
-    return res.send({ success: true })
+    const comments = await Comment.find({ postId })
+
+    // 각각의 코멘트 마다 userId를 가져와서
+    const user = await User.findById(userId)
+
+
+    return res.send({ result: user comment })
 }
