@@ -1,5 +1,6 @@
 const { User, Post } = require("../../models")
 const { isValidObjectId } = require("mongoose")
+const { findUserByIdConfig } = require("./MemberConfig")
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
 
@@ -44,18 +45,15 @@ exports.register = async (req, res, next) => {
         return res.status(400).send({ err: err.message })
     }
 }
-exports.findMemmberByQuery = async (req, res, next) => {
+exports.findMemberByQuery = async (req, res, next) => {
     const { category, search, page } = req.query
-    // if (category) {
-    // }
     if (search) {
         try {
-            // const users = await User.find().regx("name", `/${search}/`)
-            const users = await User.find({ name: search }).select({
-                name: 1,
-                role: 1,
-                userImg: 1,
-            })
+            const users = await User.find({ name: search }).select([
+                "name",
+                "role",
+                "userImg",
+            ])
             return res.send({ result: users })
         } catch (err) {
             console.log(err)
@@ -63,14 +61,14 @@ exports.findMemmberByQuery = async (req, res, next) => {
         }
     }
 }
-exports.findMemmberById = async (req, res, next) => {
+exports.findMemberById = async (req, res, next) => {
     const { userId } = req.params
     if (!isValidObjectId(userId))
         return res
             .status(400)
             .send({ err: "찾으려는 아이디형식이 틀렸습니다." })
     try {
-        const user = await User.findById(userId)
+        const user = await User.findById(userId).select(findUserByIdConfig)
         return res.send({ result: user })
     } catch (err) {
         console.log(err)
@@ -79,36 +77,44 @@ exports.findMemmberById = async (req, res, next) => {
 }
 exports.getUser = async (req, res, next) => {
     const userId = res.locals.user
+    // const { userId } = req.body
     if (!isValidObjectId(userId))
         return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
     try {
-        const [user, posts] = new Promise.all([
+        const [user, posts] = await Promise.all([
             User.findById(userId).select(["name", "role"]),
             Post.find({ recommended: { $in: userId } }).select([
                 "content",
                 "createAt",
             ]),
         ])
-        user["followerCnt"] = user.followerCnt
-        user["followingCnt"] = user.followingCnt
-        posts.map((post) => {
-            post["sharedCnt"] = post.sharedCnt
-            post["recommendedCnt"] = post.recommendedCnt
-            post["commentCnt"] = post.commentCnt
-            return post
-        })
         return res.send({ result: { user, posts } })
     } catch (err) {
         console.log(err)
         return res.status(400).send({ err: err.message })
     }
 }
-exports.editUser = async (req, res, next) => {
+exports.UpdateUser = async (req, res, next) => {
     const userId = res.locals.user._id
     if (!isValidObjectId(userId))
         return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
     try {
-        await User.findByIdAndUpdate(...req.body)
+        await User.findByIdAndUpdate(userId, { ...req.body })
+        return res.send({ success: true })
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({ err: err.message })
+    }
+}
+exports.editUser = async (req, res, next) => {
+    const { email, phone } = req.body
+    const userId = res.locals.user._id
+    if (typeof email !== "string")
+        return res.status(400).send({ err: "이메일 형식이 틀립니다." })
+    if (typeof phone !== "string")
+        return res.status(400).send({ err: "전화번호 형식이 틀렸습니다." })
+    try {
+        await User.findByIdAndUpdate(userId, { email, phone })
         return res.send({ success: true })
     } catch (err) {
         console.log(err)
