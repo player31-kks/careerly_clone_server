@@ -6,7 +6,6 @@ class App {
     constructor() {
         this.app = express()
         this.setDB()
-        this.setTemplateEngine()
         this.setMiddleWare()
         this.setRouter()
         this.set404Error()
@@ -23,9 +22,6 @@ class App {
             })
             .then(() => console.log("db connected"))
             .catch((err) => console.log(err))
-    }
-    setTemplateEngine() {
-        this.app.use(express.static(__dirname + "/views"))
     }
     setMiddleWare() {
         this.app.use(express.urlencoded({ extended: false }))

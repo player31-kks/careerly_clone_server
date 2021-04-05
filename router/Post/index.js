@@ -3,7 +3,7 @@ const PostController = require("./controller")
 const PostRouter = Router()
 
 /**
- * /post로 시작하는 곳들
+ * /post/
  */
 
 PostRouter.post("/", PostController.creatPost)
