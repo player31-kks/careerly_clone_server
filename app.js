@@ -1,7 +1,8 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const router = require("./router")
-
+const morgan = require("morgan")
+require("dotenv").config()
 class App {
     constructor() {
         this.app = express()
@@ -13,17 +14,20 @@ class App {
     }
     setDB() {
         mongoose
-            .connect("mongodb://localhost:27017/careerly", {
+            .connect("mongodb://localhost:27017/admin", {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useCreateIndex: true,
                 ignoreUndefined: true,
                 useFindAndModify: false,
+                // user: process.env.USER,
+                // pass: process.env.PASSWORD,
             })
             .then(() => console.log("db connected"))
             .catch((err) => console.log(err))
     }
     setMiddleWare() {
+        this.app.use(morgan("dev"))
         this.app.use(express.urlencoded({ extended: false }))
         this.app.use(express.json())
     }
