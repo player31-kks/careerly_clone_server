@@ -24,7 +24,7 @@ exports.login = async (req, res, next) => {
     }
 }
 exports.register = async (req, res, next) => {
-    const { name, email, password, role, phone } = req.body
+    const { name, email, password, role } = req.body
 
     if (typeof name !== "string")
         return res.status(400).send({ err: "이름 형식이 틀립니다." })
@@ -32,6 +32,8 @@ exports.register = async (req, res, next) => {
         return res.status(400).send({ err: "이메일 형식이 틀렸습니다." })
     if (typeof password !== "string")
         return res.status(400).send({ err: "비밀번호가 형식이 틀렸습니다." })
+    if (typeof role !== "string")
+        return res.status(400).send({ err: "직함 형식이 틀렸습니다." })
 
     const user = await User.findOne({ email })
     if (user)
@@ -43,6 +45,15 @@ exports.register = async (req, res, next) => {
         return res.send({ success: true })
     } catch (err) {
         return res.status(400).send({ err: err.message })
+    }
+}
+exports.checkEmail = async (req, res, next) => {
+    const { email } = req.body
+    const user = await User.findOne({ email })
+    if (user) {
+        return res.send({ success: false })
+    } else {
+        return res.send({ success: true })
     }
 }
 exports.findMemberByQuery = async (req, res, next) => {

@@ -8,6 +8,7 @@ const MemberRouter = Router()
 
 MemberRouter.post("/login", MemeberController.login)
 MemberRouter.post("/register", MemeberController.register)
+MemberRouter.post("/checkEmail", MemeberController.checkEmail)
 MemberRouter.get("/member", MemeberController.findMemberByQuery)
 MemberRouter.get("/member/:userId", MemeberController.findMemberById)
 MemberRouter.get("/user", MemeberController.getUser)
