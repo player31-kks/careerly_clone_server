@@ -1,7 +1,8 @@
 const { Post } = require("../../models")
+const { populate } = require("../../models/comment")
 
 exports.creatPost = async (req, res, next) => {
-  const userId = res.locals.user._id
+  const userId = res.locals.user
   const { content, url } = req.body
 
   if (typeof content !== "string")
@@ -49,17 +50,67 @@ exports.getPostDetail = async (req, res, next) => {
   }
 }
 exports.getRecommendPeopel = async (req, res, next) => {
-  return res.send({ success: true })
+  const { postId } = req.body
+  const userSelect = ["name", "role", "userImg"]
+  try {
+    const post = await Post.find(
+      { _id: postId },
+      populate({ path: recommended, select: userSelect })
+    ).select(["recommended"])
+    return res.send({ result: post })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({ err: err.meassage })
+  }
 }
 exports.getUserPost = async (req, res, next) => {
-  return res.send({ success: true })
+  const { userId } = req.params
+  const userSelect = ["name", "role", "userImg"]
+  try {
+    const posts = await Post.find({ user: userId })
+      .populate({
+        path: "recommended",
+        select: userSelect,
+      })
+      .select(["-shared,-comment"])
+    return res.send({ result: posts })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({ err: err.meassage })
+  }
 }
 exports.getRecommendUserPost = async (req, res, next) => {
-  return res.send({ success: true })
+  const userId = res.locals.user
+  const userSelect = ["name", "role", "userImg"]
+  try {
+    const recommendPost = await Post.find({ recommended: { $in: userId } })
+      .populate({
+        path: "recommended",
+        select: userSelect,
+      })
+      .select(["-shared", "-comment"])
+    return res.send({ result: recommendPost })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({ err: err.meassage })
+  }
 }
-exports.RecommendPost = async (req, res, next) => {
-  return res.send({ success: true })
+exports.recommendPost = async (req, res, next) => {
+  const { postId } = req.params
+  const userId = res.locals.user
+  try {
+    await Post.updateOne(
+      { _id: postId },
+      {
+        $push: { recommended: userId },
+      }
+    )
+    return res.send({ success: true })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({ err: err.meassage })
+  }
 }
-exports.editPassword = async (req, res, next) => {
+exports.sharePost = async (req, res, next) => {
   return res.send({ success: true })
 }
