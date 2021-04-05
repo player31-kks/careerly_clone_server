@@ -21,15 +21,18 @@ const PostSchema = new Schema(
 )
 
 PostSchema.virtual("sharedCnt").get(function () {
-    return this.shared.length
+    if (this.shared) return this.shared.length
+    return 0
 })
 
 PostSchema.virtual("recommendedCnt").get(function () {
-    return this.recommended.length
+    if (this.recommended) return this.recommended.length
+    return 0
 })
 
 PostSchema.virtual("commentCnt").get(function () {
-    return this.comment.length
+    if (this.comment) return this.comment.length
+    return 0
 })
 
 PostSchema.set("toObject", { virtuals: true })

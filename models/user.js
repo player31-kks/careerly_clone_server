@@ -9,10 +9,22 @@ const UserSchema = new Schema(
         interest: { type: [String] },
         introduce: { type: String },
         career: {
-            type: [{ company: { type: String }, role: { type: String } }],
+            type: [
+                {
+                    company: { type: String },
+                    role: { type: String },
+                    _id: false,
+                },
+            ],
         },
         education: {
-            type: [{ school: { type: String }, major: { type: String } }],
+            type: [
+                {
+                    school: { type: String },
+                    major: { type: String },
+                    _id: false,
+                },
+            ],
         },
         userImg: { type: String },
         follower: { type: [{ type: Types.ObjectId, ref: "User" }] },
@@ -24,18 +36,18 @@ const UserSchema = new Schema(
     }
 )
 
-// UserSchema.virtual("followerCnt").get(function () {
-//     if (this.follower) return this.follower.length
-//     else return 0
-// })
+UserSchema.virtual("followerCnt").get(function () {
+    if (this.follower) return this.follower.length
+    else return 0
+})
 
-// UserSchema.virtual("followingCnt").get(function () {
-//     if (this.following) return this.follower.length
-//     else return 0
-// })
+UserSchema.virtual("followingCnt").get(function () {
+    if (this.following) return this.follower.length
+    else return 0
+})
 
-// UserSchema.set("toObject", { virtuals: true })
-// UserSchema.set("toJSON", { virtuals: true })
+UserSchema.set("toObject", { virtuals: true })
+UserSchema.set("toJSON", { virtuals: true })
 
 const User = model("User", UserSchema)
 module.exports = User
