@@ -1,7 +1,8 @@
 const { Vote } = require("../../models")
 
 exports.creatVote = async (req, res, next) => {
-  const userId = res.locals.user
+  // const userId = res.locals.user
+  const userId = "606bcd5e5693a04d48820b64"
   const { title, description, selection } = req.body
 
   if (typeof title !== "string")
@@ -21,6 +22,8 @@ exports.creatVote = async (req, res, next) => {
 }
 
 exports.getVote = async (req, res, next) => {
+  let { page } = req.query
+  page = page || 0
   const userSelect = ["name", "role", "userImg"]
   const vote = await Vote.find({})
     .populate([{ path: "user", select: userSelect }])
@@ -47,7 +50,8 @@ exports.getVoteDetail = async (req, res, next) => {
 
 exports.doVote = async (req, res, next) => {
   const { voteId } = req.params
-  const userId = res.locals.user
+  // const userId = res.locals.user
+  const userId = "606bcd5e5693a04d48820b64"
   const { select } = req.body
   try {
     await Vote.updateOne(

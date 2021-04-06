@@ -19,7 +19,8 @@ exports.creatPost = async (req, res, next) => {
   }
 }
 exports.getPostByPage = async (req, res, next) => {
-  const { page } = req.query
+  let { page } = req.query
+  page = page || 0
   const userSelect = ["name", "role", "userImg"]
   const post = await Post.find({})
     .populate([

@@ -9,8 +9,8 @@ const VoteRouter = Router()
 VoteRouter.post("/", VoteController.creatVote)
 VoteRouter.get("/", VoteController.getVote)
 VoteRouter.get("/:voteId", VoteController.getVoteDetail)
-VoteRouter.get("/:voteId", VoteController.doVote)
-VoteRouter.patch("/:voteId", VoteController.editVote)
-VoteRouter.delete("/:voteId", VoteController.deleteVote)
+VoteRouter.patch("/:voteId", VoteController.doVote)
+// VoteRouter.patch("/:voteId", VoteController.editVote)
+// VoteRouter.delete("/:voteId", VoteController.deleteVote)
 
 module.exports = VoteRouter
