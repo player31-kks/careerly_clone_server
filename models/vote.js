@@ -21,5 +21,15 @@ const VoteSchema = new Schema(
     }
 )
 
+VoteSchema.virtual("commentCnt").get(function () {
+    if (this.comment) return this.comment.length
+    return 0
+})
+
+
+PostSchema.set("toObject", { virtuals: true })
+PostSchema.set("toJSON", { virtuals: true })
+
+
 const Vote = model("Vote", VoteSchema)
 module.exports = Vote

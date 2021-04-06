@@ -14,7 +14,7 @@ PostRouter.get("/user/:userId", PostController.getUserPost)
 PostRouter.get("/recommend/:userId", PostController.getRecommendUserPost)
 PostRouter.patch("/recommend/:postId", PostController.recommendPost)
 PostRouter.patch("/share/:postId", PostController.sharePost)
-PostRouter.patch("/:postId", PostController.editPost)
-PostRouter.delete("/:postId", PostController.deletePost)
+PostRouter.patch("/share/:postId", PostController.editPost)
+PostRouter.delete("/share/:postId", PostController.deletePost)
 
 module.exports = PostRouter
