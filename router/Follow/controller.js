@@ -34,8 +34,7 @@ exports.getFollowing = async (req, res, next) => {
 }
 exports.addFollow = async (req, res, next) => {
   const { followId } = req.body
-  // const user = res.locals.user
-  const user = "606bcd535693a04d48820b63"
+  const user = res.locals.user
   try {
     await Promise.all([
       User.findByIdAndUpdate(user, { $push: { following: followId } }),
@@ -49,8 +48,7 @@ exports.addFollow = async (req, res, next) => {
 }
 exports.deleteFollow = async (req, res, next) => {
   const { followId } = req.body
-  // const user = res.locals.user
-  const user = "606bcd535693a04d48820b63"
+  const user = res.locals.user
   try {
     await Promise.all([
       User.findByIdAndUpdate(user, { $pull: { following: followId } }),

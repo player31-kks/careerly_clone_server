@@ -2,8 +2,8 @@ const { Comment, Post, Vote, User } = require("../../models")
 const { isValidObjectId } = require("mongoose")
 
 exports.postComment = async (req, res, next) => {
-  // const userId = res.locals.user._id
-  const userId = "606baceb859fdd2ba468072b"
+  const userId = res.locals.user
+  // const userId = "606baceb859fdd2ba468072b"
   const { postId } = req.params
   const { content } = req.body
   if (!content) {
