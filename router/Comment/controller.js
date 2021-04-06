@@ -16,17 +16,31 @@ exports.postComment = async (req, res, next) => {
     await NewComment.save()
     return res.send({ success: true })
 }
+
 exports.updateComment = async (req, res, next) => {
+    const { postId } = req.params
+    if (!content) {
+        return res.status(400).send({ err: "코멘트가 비었습니다." })
+    }
+    await Comment.findByIdAndUpdate(postId, { content })
     return res.send({ success: true })
 }
+
 exports.deleteComment = async (req, res, next) => {
+    const { _id } = req.body
+    const { postId } = req.params
+    await Comment.findByIdAndDelete(_id)
     return res.send({ success: true })
 }
+
 exports.getComment = async (req, res, next) => {
     const { postId } = req.params
 
     const comments = await Comment.find({ postId })
 
+    for (comment in comments) {
+        User.findOne({ comment의 userId })
+    }
     // 각각의 코멘트 마다 userId를 가져와서
     const user = await User.findById(userId)
 
