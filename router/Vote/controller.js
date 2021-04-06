@@ -44,3 +44,21 @@ exports.getVoteDetail = async (req, res, next) => {
     return res.status(400).send({ err: err.meassage })
   }
 }
+
+exports.doVote = async (req, res, next) => {
+  const { voteId } = req.params
+  const userId = res.locals.user
+  const { select } = req.body
+  try {
+    await Vote.updateOne(
+      { _id: voteId },
+      {
+        $push: { result: { user: userId, select } },
+      }
+    )
+    return res.send({ success: true })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({ err: err.meassage })
+  }
+}

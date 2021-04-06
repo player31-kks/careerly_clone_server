@@ -27,8 +27,8 @@ VoteSchema.virtual("commentCnt").get(function () {
 })
 
 
-PostSchema.set("toObject", { virtuals: true })
-PostSchema.set("toJSON", { virtuals: true })
+VoteSchema.set("toObject", { virtuals: true })
+VoteSchema.set("toJSON", { virtuals: true })
 
 
 const Vote = model("Vote", VoteSchema)
