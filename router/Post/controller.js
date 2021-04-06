@@ -2,12 +2,13 @@ const { Post } = require("../../models")
 const { populate } = require("../../models/comment")
 
 exports.creatPost = async (req, res, next) => {
-  const userId = res.locals.user
+  // const userId = res.locals.user
+  const userId = "606baceb859fdd2ba468072b"
+
   const { content, url } = req.body
 
   if (typeof content !== "string")
     return res.status(400).send({ err: "내용이 형식에 맞지 않습니다." })
-
   const post = new Post({ ...req.body, user: userId })
   try {
     await post.save()
@@ -18,7 +19,7 @@ exports.creatPost = async (req, res, next) => {
   }
 }
 exports.getPostByPage = async (req, res, next) => {
-  const { page } = req.params
+  const { page } = req.query
   const userSelect = ["name", "role", "userImg"]
   const post = await Post.find({})
     .populate([
@@ -32,7 +33,7 @@ exports.getPostByPage = async (req, res, next) => {
     .sort({ updateAt: -1 })
     .skip(page * 5)
     .limit(5)
-  return res.send({ success: true })
+  return res.send({ result: post })
 }
 exports.getPostDetail = async (req, res, next) => {
   const { postId } = req.params
@@ -49,14 +50,13 @@ exports.getPostDetail = async (req, res, next) => {
     return res.status(400).send({ err: err.meassage })
   }
 }
-exports.getRecommendPeopel = async (req, res, next) => {
+exports.getRecommendPeople = async (req, res, next) => {
   const { postId } = req.body
   const userSelect = ["name", "role", "userImg"]
   try {
-    const post = await Post.find(
-      { _id: postId },
-      populate({ path: recommended, select: userSelect })
-    ).select(["recommended"])
+    const post = await Post.find({ _id: postId })
+      .populate({ path: "recommended", select: userSelect })
+      .select(["recommended"])
     return res.send({ result: post })
   } catch (err) {
     console.log(err)
@@ -72,7 +72,7 @@ exports.getUserPost = async (req, res, next) => {
         path: "recommended",
         select: userSelect,
       })
-      .select(["-shared,-comment"])
+      .select(["-shared", "-comment"])
     return res.send({ result: posts })
   } catch (err) {
     console.log(err)
@@ -80,7 +80,7 @@ exports.getUserPost = async (req, res, next) => {
   }
 }
 exports.getRecommendUserPost = async (req, res, next) => {
-  const userId = res.locals.user
+  const { userId } = req.params
   const userSelect = ["name", "role", "userImg"]
   try {
     const recommendPost = await Post.find({ recommended: { $in: userId } })
@@ -97,7 +97,8 @@ exports.getRecommendUserPost = async (req, res, next) => {
 }
 exports.recommendPost = async (req, res, next) => {
   const { postId } = req.params
-  const userId = res.locals.user
+  // const userId = res.locals.user
+  const userId = "606baceb859fdd2ba468072b"
   try {
     await Post.updateOne(
       { _id: postId },
@@ -113,4 +114,28 @@ exports.recommendPost = async (req, res, next) => {
 }
 exports.sharePost = async (req, res, next) => {
   return res.send({ success: true })
+}
+exports.editPost = async (req, res, next) => {
+  const { postId } = req.params
+  const { content, url } = req.body
+  if (!content) {
+    return res.status(400).send({ err: "내용이 비었습니다." })
+  }
+  try {
+    await Post.findByIdAndUpdate(postId, { ...req.body })
+    return res.send({ success: true })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({ err: err.meassage })
+  }
+}
+exports.deletePost = async (req, res, next) => {
+  const { postId } = req.params
+  try {
+    await Post.findByIdAndDelete(postId)
+    return res.send({ success: true })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({ err: err.meassage })
+  }
 }

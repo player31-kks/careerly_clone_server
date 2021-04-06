@@ -40,7 +40,7 @@ UserSchema.virtual("followerCnt").get(function () {
 })
 
 UserSchema.virtual("followingCnt").get(function () {
-  if (this.following) return this.follower.length
+  if (this.following) return this.following.length
   else return 0
 })
 

@@ -2,9 +2,9 @@ const { Router } = require("express")
 const FollowController = require("./controller")
 const FollowRouter = Router()
 
-FollowRouter.get("/follower/:userId", FolloweRouter.getFollower)
-FollowRouter.get("/following/:userId", FolloweRouter.getFollowing)
-FollowRouter.post("/", FolloweRouter.addFollow)
-FollowRouter.delete("/", FolloweRouter.deleteFollow)
+FollowRouter.get("/follower/:userId", FollowController.getFollower)
+FollowRouter.get("/following/:userId", FollowController.getFollowing)
+FollowRouter.post("/", FollowController.addFollow)
+FollowRouter.delete("/", FollowController.deleteFollow)
 
 module.exports = FollowRouter

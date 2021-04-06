@@ -7,9 +7,9 @@ exports.getFollower = async (req, res, next) => {
     const user = await User.findById(userId)
       .populate({
         path: "follower",
-        populate: { path: "user", select: userSelect },
+        select: userSelect,
       })
-      .select([...userSelect, "follwing"])
+      .select(["name", "role", "userImg", "follower"])
     return res.send({ result: user })
   } catch (err) {
     console.log(err)
@@ -23,9 +23,9 @@ exports.getFollowing = async (req, res, next) => {
     const user = await User.findById(userId)
       .populate({
         path: "following",
-        populate: { path: "user", select: userSelect },
+        select: userSelect,
       })
-      .select([...userSelect, "follwing"])
+      .select([...userSelect, "following"])
     return res.send({ result: user })
   } catch (err) {
     console.log(err)
@@ -33,12 +33,13 @@ exports.getFollowing = async (req, res, next) => {
   }
 }
 exports.addFollow = async (req, res, next) => {
-  const { followerId } = req.body
-  const user = res.locals.user
+  const { followId } = req.body
+  // const user = res.locals.user
+  const user = "606bcd535693a04d48820b63"
   try {
     await Promise.all([
-      User.findByIdAndUpdate(user, { $push: { follower: followerId } }),
-      User.findByIdAndUpdate(followerId, { $push: { following: user } }),
+      User.findByIdAndUpdate(user, { $push: { following: followId } }),
+      User.findByIdAndUpdate(followId, { $push: { follower: user } }),
     ])
     return res.send({ success: true })
   } catch (err) {
@@ -47,12 +48,13 @@ exports.addFollow = async (req, res, next) => {
   }
 }
 exports.deleteFollow = async (req, res, next) => {
-  const { followerId } = req.body
-  const user = res.locals.user
+  const { followId } = req.body
+  // const user = res.locals.user
+  const user = "606bcd535693a04d48820b63"
   try {
     await Promise.all([
-      User.findByIdAndUpdate(user, { $pull: { follower: followerId } }),
-      User.findByIdAndUpdate(followerId, { $pull: { following: user } }),
+      User.findByIdAndUpdate(user, { $pull: { following: followId } }),
+      User.findByIdAndUpdate(followId, { $pull: { follower: user } }),
     ])
     return res.send({ success: true })
   } catch (err) {
