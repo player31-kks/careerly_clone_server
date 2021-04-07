@@ -28,7 +28,7 @@ class App {
   }
   setMiddleWare() {
     this.app.use(morgan("combined"))
-    this.app.use(express.static(path.join(__dirname, "public")))
+    this.app.use(express.static(path.join(__dirname, "uploads")))
     this.app.use("/img", express.static(path.join(__dirname, "uploads")))
     this.app.use(express.urlencoded({ extended: false }))
     this.app.use(express.json())
