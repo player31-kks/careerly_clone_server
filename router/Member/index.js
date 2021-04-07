@@ -17,6 +17,7 @@ MemberRouter.get("/user", isVaildation, MemeberController.getUser)
 MemberRouter.put("/user", isVaildation, upload.single("img"), MemeberController.UpdateUser)
 MemberRouter.patch("/user", isVaildation, MemeberController.editUser)
 MemberRouter.post("/password", MemeberController.findPassword)
-// MemberRouter.patch("/password", MemeberController.editPassword)
+MemberRouter.patch("/password", MemeberController.changePassword)
+MemberRouter.post("/user", MemeberController.changeUserImg)
 
 module.exports = MemberRouter

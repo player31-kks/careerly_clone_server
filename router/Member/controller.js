@@ -20,6 +20,7 @@ exports.login = async (req, res, next) => {
     return res.status(400).send({ err: err.message })
   }
 }
+
 exports.register = async (req, res, next) => {
   const { name, email, password, role } = req.body
 
@@ -40,6 +41,7 @@ exports.register = async (req, res, next) => {
     return res.status(400).send({ err: err.message })
   }
 }
+
 exports.checkEmail = async (req, res, next) => {
   const { email } = req.body
   const user = await User.findOne({ email })
@@ -49,6 +51,7 @@ exports.checkEmail = async (req, res, next) => {
     return res.send({ success: true })
   }
 }
+
 exports.findMemberByQuery = async (req, res, next) => {
   const { category, search } = req.query
   let { page } = req.query
@@ -81,6 +84,7 @@ exports.findMemberByQuery = async (req, res, next) => {
     }
   }
 }
+
 exports.findMemberById = async (req, res, next) => {
   const { userId } = req.params
   if (!isValidObjectId(userId))
@@ -93,6 +97,7 @@ exports.findMemberById = async (req, res, next) => {
     return res.status(400).send({ err: err.message })
   }
 }
+
 exports.getUser = async (req, res, next) => {
   const userId = res.locals.user
   if (!isValidObjectId(userId)) return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
@@ -108,6 +113,7 @@ exports.getUser = async (req, res, next) => {
     return res.status(400).send({ err: err.message })
   }
 }
+
 exports.UpdateUser = async (req, res, next) => {
   const userId = res.locals.user
   if (!isValidObjectId(userId)) return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
@@ -120,6 +126,7 @@ exports.UpdateUser = async (req, res, next) => {
     return res.status(400).send({ err: err.message })
   }
 }
+
 exports.editUser = async (req, res, next) => {
   const { email } = req.body
   const userId = res.locals.user
@@ -132,6 +139,7 @@ exports.editUser = async (req, res, next) => {
     return res.status(400).send({ err: err.message })
   }
 }
+
 exports.findPassword = async (req, res, next) => {
   console.log(process.env.EMAIL_USER, process.env.EMAIL_PASS)
   const main = async () => {
@@ -166,9 +174,20 @@ exports.findPassword = async (req, res, next) => {
   main().catch(console.error)
   return res.send({ success: true })
 }
-exports.editPassword = async (req, res, next) => {
-  const { email } = req.body
-  return res.send({ email })
-}
 
-exports.uploadImg = async (req, res, next) => {}
+exports.changePassword = async (req, res, next) => {
+  const { password, newPassword, newPassCheck } = req.body
+  const userId = res.locals.user
+
+  const currentPass = await User.find({ _id: userId }).and([{ password }])
+  if (currentPass !== password) return res.status(400).send({ err: "현재 비밀번호가 다릅니다." })
+  if (newPassword !== newPassCheck)
+    return res.status(400).send({ err: "새 비밀번호가 서로 다릅니다." })
+  try {
+    await User.findByIdAndUpdate(userId, { password: newPassword })
+    return res.send({ success: true })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({ err: err.message })
+  }
+}
