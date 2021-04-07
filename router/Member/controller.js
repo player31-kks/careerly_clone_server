@@ -105,7 +105,7 @@ exports.getUser = async (req, res, next) => {
     const user = await User.findOne({ _id: userId }).select({
       password: 0,
       follower: 0,
-      follwing: 0,
+      following: 0,
     })
     return res.send({ result: { user } })
   } catch (err) {
@@ -179,8 +179,7 @@ exports.changePassword = async (req, res, next) => {
   const userId = res.locals.user
 
   const currentPass = await User.find({ _id: userId }).and([{ password }])
-  if (currentPass !== password)
-    return res.status(400).send({ err: "현재 비밀번호가 다릅니다." })
+  if (currentPass !== password) return res.status(400).send({ err: "현재 비밀번호가 다릅니다." })
   if (newPassword !== newPassCheck)
     return res.status(400).send({ err: "새 비밀번호가 서로 다릅니다." })
   try {
