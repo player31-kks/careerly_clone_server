@@ -3,6 +3,7 @@ const { isValidObjectId } = require("mongoose")
 const { findUserByIdConfig } = require("./MemberConfig")
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
+const nodemailer = require("nodemailer")
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body
@@ -130,8 +131,38 @@ exports.editUser = async (req, res, next) => {
   }
 }
 exports.findPassword = async (req, res, next) => {
-  const { email } = req.body
-  return res.send({ email })
+  console.log(process.env.EMAIL_USER, process.env.EMAIL_PASS)
+  const main = async () => {
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    })
+    const userId = res.locals.user
+    const user = await User.findOne({ _id: userId })
+    let info = await transporter.sendMail({
+      from: `"WDMA Team"`,
+      to: `${user.email}`,
+      subject: "커리어리 클론 코딩 비밀번호입니다",
+      text: "ㅠㅠ",
+      html: `<b>${user.password}</b>`,
+    })
+
+    console.log("Message sent: %s", info.messageId)
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Sent Auth Email",
+    })
+  }
+
+  main().catch(console.error)
+  return res.send({ success: true })
 }
 exports.editPassword = async (req, res, next) => {
   const { email } = req.body
