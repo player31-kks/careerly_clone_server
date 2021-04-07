@@ -25,7 +25,7 @@ const UserSchema = new Schema(
         },
       ],
     },
-    userImg: { type: String, default: "/icon.png" },
+    userImg: { type: String, default: "/icon.png", required: true },
     follower: { type: [{ type: Types.ObjectId, ref: "User" }] },
     following: { type: [{ type: Types.ObjectId, ref: "User" }] },
   },

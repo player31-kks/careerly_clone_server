@@ -1,10 +1,11 @@
 const { Router } = require("express")
 const router = Router()
+const isVaildation = require("../middlewares/vaildations")
 
 router.use("/", require("./Member"))
-router.use("/post", require("./Post"))
-router.use("/comment", require("./Comment"))
-router.use("/follow", require("./Follow"))
-router.use("/vote", require("./Vote"))
+router.use("/post", isVaildation, require("./Post"))
+router.use("/comment", isVaildation, require("./Comment"))
+router.use("/follow", isVaildation, require("./Follow"))
+router.use("/vote", isVaildation, require("./Vote"))
 
 module.exports = router

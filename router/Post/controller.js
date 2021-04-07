@@ -2,8 +2,8 @@ const { Post } = require("../../models")
 const { populate } = require("../../models/comment")
 
 exports.creatPost = async (req, res, next) => {
-  // const userId = res.locals.user
-  const { content, url, userId } = req.body
+  const userId = res.locals.user
+  const { content, url } = req.body
 
   if (typeof content !== "string")
     return res.status(400).send({ err: "내용이 형식에 맞지 않습니다." })

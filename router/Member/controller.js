@@ -32,17 +32,8 @@ exports.register = async (req, res, next) => {
   if (user) return res.status(400).send({ err: "이미 존재하는 사용자입니다." })
 
   const NewUser = new User({ ...req.body })
-
   try {
     await NewUser.save()
-    await User.updateOne(
-      { email: email },
-      {
-        $push: {
-          userImg: "https://files.slack.com/files-pri/T01SSB30K4P-F01TKHCUJ8L/icon.png"
-        }
-      }
-    )
     return res.send({ success: true })
   } catch (err) {
     return res.status(400).send({ err: err.message })
@@ -102,8 +93,7 @@ exports.findMemberById = async (req, res, next) => {
   }
 }
 exports.getUser = async (req, res, next) => {
-  // const userId = res.locals.user
-  const { userId } = req.body
+  const userId = res.locals.user
   if (!isValidObjectId(userId)) return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
   try {
     const [user, posts] = await Promise.all([

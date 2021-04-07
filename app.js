@@ -2,6 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 const router = require("./router")
 const morgan = require("morgan")
+const path = require("path")
 require("dotenv").config()
 class App {
   constructor() {
@@ -14,7 +15,7 @@ class App {
   }
   setDB() {
     mongoose
-      .connect("mongodb://localhost:27017/careely", {
+      .connect("mongodb://localhost:27017/admin", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,

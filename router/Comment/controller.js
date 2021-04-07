@@ -2,9 +2,9 @@ const { Comment, Post, Vote, User } = require("../../models")
 const { isValidObjectId } = require("mongoose")
 
 exports.postComment = async (req, res, next) => {
-  // const userId = res.locals.user
+  const userId = res.locals.user
   const { postId } = req.params
-  const { content, userId } = req.body
+  const { content } = req.body
   if (!content) {
     return res.status(400).send({ err: "코멘트가 비었습니다." })
   }
