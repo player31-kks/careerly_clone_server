@@ -14,20 +14,22 @@ class App {
   }
   setDB() {
     mongoose
-      .connect("mongodb://localhost:27017/careerly", {
+      .connect("mongodb://localhost:27017/careely", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
         ignoreUndefined: true,
         useFindAndModify: false,
-        // user: process.env.USER,
-        // pass: process.env.PASSWORD,
+        // user: process.env.DB_USER,
+        // pass: process.env.DB_PASS,
       })
       .then(() => console.log("db connected"))
       .catch((err) => console.log(err))
   }
   setMiddleWare() {
     this.app.use(morgan("dev"))
+    this.app.use(express.static(path.join(__dirname, "public")))
+    this.app.use("/img", express.static(path.join(__dirname, "uploads")))
     this.app.use(express.urlencoded({ extended: false }))
     this.app.use(express.json())
   }

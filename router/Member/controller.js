@@ -49,10 +49,30 @@ exports.checkEmail = async (req, res, next) => {
   }
 }
 exports.findMemberByQuery = async (req, res, next) => {
-  const { category, search, page } = req.query
+  const { category, search } = req.query
+  let { page } = req.query
+  page = page || 0
+  const userSelect = ["name", "role", "userImg"]
+
+  if (category) {
+    try {
+      const users = await User.find({ role: category })
+        .select(userSelect)
+        .skip(page * 5)
+        .limit(5)
+      return res.send({ result: users })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send({ err: err.message })
+    }
+  }
   if (search) {
     try {
-      const users = await User.find({ name: search }).select(["name", "role", "userImg"])
+      const query = new RegExp(search)
+      const users = await User.find({ name: query })
+        .select(userSelect)
+        .skip(page * 5)
+        .limit(5)
       return res.send({ result: users })
     } catch (err) {
       console.log(err)
@@ -88,8 +108,7 @@ exports.getUser = async (req, res, next) => {
   }
 }
 exports.UpdateUser = async (req, res, next) => {
-  // const userId = res.locals.user._id
-  const userId = "606baceb859fdd2ba468072b"
+  const userId = res.locals.user
   if (!isValidObjectId(userId)) return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
   try {
     await User.findByIdAndUpdate(userId, { ...req.body })
@@ -101,8 +120,7 @@ exports.UpdateUser = async (req, res, next) => {
 }
 exports.editUser = async (req, res, next) => {
   const { email } = req.body
-  // const userId = res.locals.user._id
-  const userId = "606baceb859fdd2ba468072b"
+  const userId = res.locals.user
   if (typeof email !== "string") return res.status(400).send({ err: "이메일 형식이 틀립니다." })
   try {
     await User.findByIdAndUpdate(userId, { email })

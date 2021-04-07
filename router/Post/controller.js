@@ -3,16 +3,14 @@ const { populate } = require("../../models/comment")
 
 exports.creatPost = async (req, res, next) => {
   // const userId = res.locals.user
-  const userId = "606baceb859fdd2ba468072b"
-
-  const { content, url } = req.body
+  const { content, url, userId } = req.body
 
   if (typeof content !== "string")
     return res.status(400).send({ err: "내용이 형식에 맞지 않습니다." })
   const post = new Post({ ...req.body, user: userId })
   try {
     await post.save()
-    return res.send({ success: true })
+    return res.send({ post })
   } catch (err) {
     console.log(err)
     return res.status(400).send({ err: err.meassage })
@@ -98,8 +96,7 @@ exports.getRecommendUserPost = async (req, res, next) => {
 }
 exports.recommendPost = async (req, res, next) => {
   const { postId } = req.params
-  // const userId = res.locals.user
-  const userId = "606baceb859fdd2ba468072b"
+  const userId = res.locals.user
   try {
     await Post.updateOne(
       { _id: postId },

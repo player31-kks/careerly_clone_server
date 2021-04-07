@@ -1,8 +1,7 @@
 const { Vote } = require("../../models")
 
 exports.creatVote = async (req, res, next) => {
-  // const userId = res.locals.user
-  const userId = "606bcd5e5693a04d48820b64"
+  const userId = res.locals.user
   const { title, description, selection } = req.body
 
   if (typeof title !== "string")
@@ -50,8 +49,7 @@ exports.getVoteDetail = async (req, res, next) => {
 
 exports.doVote = async (req, res, next) => {
   const { voteId } = req.params
-  // const userId = res.locals.user
-  const userId = "606bcd5e5693a04d48820b64"
+  const userId = res.locals.user
   const { select } = req.body
   try {
     await Vote.updateOne(
