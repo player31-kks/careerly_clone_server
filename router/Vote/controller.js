@@ -21,14 +21,14 @@ exports.creatVote = async (req, res, next) => {
 }
 
 exports.getVote = async (req, res, next) => {
-  let { page } = req.query
-  page = page || 0
+  // let { page } = req.query
+  // page = page || 0
   const userSelect = ["name", "role", "userImg"]
   const vote = await Vote.find({})
     .populate([{ path: "user", select: userSelect }])
     .sort({ updateAt: -1 })
-    .skip(page * 5)
-    .limit(5)
+    // .skip(page * 5)
+    .limit(17)
   return res.send({ result: vote })
 }
 
