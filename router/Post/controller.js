@@ -1,6 +1,9 @@
 const { Post } = require("../../models")
 const { populate } = require("../../models/comment")
 
+const userSelect = ["name", "role", "userImg"]
+const postSelect = ["user", "content", "sharedCnt", "recommendedCnt", "commentCnt"]
+
 exports.creatPost = async (req, res, next) => {
   const userId = res.locals.user
   const { content, url } = req.body
@@ -10,7 +13,7 @@ exports.creatPost = async (req, res, next) => {
   const post = new Post({ ...req.body, user: userId })
   try {
     await post.save()
-    return res.send({ post })
+    return res.send({ success: true })
   } catch (err) {
     console.log(err)
     return res.status(400).send({ err: err.meassage })
@@ -19,16 +22,9 @@ exports.creatPost = async (req, res, next) => {
 exports.getPostByPage = async (req, res, next) => {
   let { page } = req.query
   page = page || 0
-  const userSelect = ["name", "role", "userImg"]
   const post = await Post.find({})
-    .populate([
-      { path: "user", select: userSelect },
-      { path: "recommended", select: userSelect },
-      {
-        path: "comment",
-        populate: { path: "user", select: userSelect },
-      },
-    ])
+    .populate([{ path: "user", select: userSelect }])
+    .select(postSelect)
     .sort({ updateAt: -1 })
     .skip(page * 5)
     .limit(5)
@@ -37,7 +33,6 @@ exports.getPostByPage = async (req, res, next) => {
 exports.getPostDetail = async (req, res, next) => {
   const { postId } = req.params
   try {
-    const userSelect = ["name", "role", "userImg"]
     const post = await Post.findById(postId).populate([
       { path: "user", select: userSelect },
       { path: "recommended", select: userSelect },
@@ -51,11 +46,10 @@ exports.getPostDetail = async (req, res, next) => {
 }
 exports.getRecommendPeople = async (req, res, next) => {
   const { postId } = req.body
-  const userSelect = ["name", "role", "userImg"]
   try {
     const post = await Post.find({ _id: postId })
       .populate({ path: "recommended", select: userSelect })
-      .select(["recommended"])
+      .select(["recommended", "recommendedCnt"])
     return res.send({ result: post })
   } catch (err) {
     console.log(err)
@@ -64,14 +58,13 @@ exports.getRecommendPeople = async (req, res, next) => {
 }
 exports.getUserPost = async (req, res, next) => {
   const { userId } = req.params
-  const userSelect = ["name", "role", "userImg"]
   try {
     const posts = await Post.find({ user: userId })
       .populate({
         path: "recommended",
         select: userSelect,
       })
-      .select(["-shared", "-comment"])
+      .select(postSelect)
     return res.send({ result: posts })
   } catch (err) {
     console.log(err)
@@ -80,14 +73,13 @@ exports.getUserPost = async (req, res, next) => {
 }
 exports.getRecommendUserPost = async (req, res, next) => {
   const { userId } = req.params
-  const userSelect = ["name", "role", "userImg"]
   try {
     const recommendPost = await Post.find({ recommended: { $in: userId } })
       .populate({
         path: "recommended",
         select: userSelect,
       })
-      .select(["-shared", "-comment"])
+      .select([...postSelect, "recommended"])
     return res.send({ result: recommendPost })
   } catch (err) {
     console.log(err)
@@ -102,6 +94,7 @@ exports.recommendPost = async (req, res, next) => {
       { _id: postId },
       {
         $push: { recommended: userId },
+        $inc: { recommendedCnt: 1 },
       }
     )
     return res.send({ success: true })

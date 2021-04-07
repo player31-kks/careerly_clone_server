@@ -15,7 +15,13 @@ exports.postComment = async (req, res, next) => {
   try {
     await Promise.all([
       NewComment.save(),
-      Post.updateOne({ _id: postId }, { $push: { comment: NewComment._id } }),
+      Post.updateOne(
+        { _id: postId },
+        {
+          $push: { comment: NewComment._id },
+          $inc: { commentCnt: 1 },
+        }
+      ),
     ])
     return res.send({ success: true })
   } catch (err) {
@@ -32,7 +38,7 @@ exports.getComment = async (req, res, next) => {
       path: "comment",
       populate: { path: "user", select: userSelect },
     })
-    .select(["comment"])
+    .select(["comment", "commentCnt"])
   return res.send({ result: comments })
 }
 

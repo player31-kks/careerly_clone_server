@@ -1,4 +1,4 @@
-const { DB } = require("../models")
+const { User } = require("../models")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
     }
     try {
       const { userId } = jwt.verify(tokenValue, process.env.TOKEN_KEY)
-      DB.User.findById(userId)
+      User.findById(userId)
         .then((user) => {
           res.locals.user = userId
           next()
@@ -22,6 +22,7 @@ module.exports = (req, res, next) => {
           return res.send({ err })
         })
     } catch (err) {
+      console.log(err)
       return res.status(400).send({ err: "user err" })
     }
   } catch (err) {

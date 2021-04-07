@@ -1,3 +1,4 @@
+const { required } = require("joi")
 const { Schema, model, Types } = require("mongoose")
 
 const PostSchema = new Schema(
@@ -14,29 +15,14 @@ const PostSchema = new Schema(
     comment: {
       type: [{ type: Types.ObjectId, required: true, ref: "Comment" }],
     },
+    sharedCnt: { type: Number, required: true, default: 0 },
+    recommendedCnt: { type: Number, required: true, default: 0 },
+    commentCnt: { type: Number, required: true, default: 0 },
   },
   {
     timestamps: true,
   }
 )
-
-PostSchema.virtual("sharedCnt").get(function () {
-  if (this.shared) return this.shared.length
-  return 0
-})
-
-PostSchema.virtual("recommendedCnt").get(function () {
-  if (this.recommended) return this.recommended.length
-  return 0
-})
-
-PostSchema.virtual("commentCnt").get(function () {
-  if (this.comment) return this.comment.length
-  return 0
-})
-
-PostSchema.set("toObject", { virtuals: true })
-PostSchema.set("toJSON", { virtuals: true })
 
 const Post = model("Post", PostSchema)
 module.exports = Post
