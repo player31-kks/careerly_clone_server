@@ -2,8 +2,6 @@ const { Router } = require("express")
 const MemeberController = require("./controller")
 const MemberRouter = Router()
 const isVaildation = require("../../middlewares/vaildations")
-const path = require("path")
-const multer = require("multer")
 const upload = require("../../middlewares/imgUpload")
 /**
  * /login
