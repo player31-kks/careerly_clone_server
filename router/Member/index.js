@@ -2,6 +2,21 @@ const { Router } = require("express")
 const MemeberController = require("./controller")
 const MemberRouter = Router()
 const isVaildation = require("../../middlewares/vaildations")
+const path = require("path")
+const multer = require('multer')
+const imageController = require("./controller");
+const upload = multer({
+    storage: multer.diskStorage({
+        // set a localstorage destination
+        destination: (req, file, cb) => {
+            cb(null, 'uploads/');
+        },
+        // convert a file name
+        filename: (req, file, cb) => {
+            cb(null, new Date().valueOf() + path.extname(file.originalname));
+        },
+    }),
+});
 /**
  * /login
  * /register
@@ -17,6 +32,6 @@ MemberRouter.put("/user", isVaildation, MemeberController.UpdateUser)
 MemberRouter.patch("/user", isVaildation, MemeberController.editUser)
 MemberRouter.post("/password", MemeberController.findPassword)
 MemberRouter.patch("/password", MemeberController.changePassword)
-MemberRouter.post("/user", MemeberController.changeUserImg)
+MemberRouter.post("/user", upload.single('img'), imageController.changeUserImg)
 
 module.exports = MemberRouter

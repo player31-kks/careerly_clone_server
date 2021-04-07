@@ -193,5 +193,6 @@ exports.changePassword = async (req, res, next) => {
 }
 
 exports.changeUserImg = async (req, res, next) => {
-
+  console.log(req.file)
+  return res.send({ success: true })
 }
