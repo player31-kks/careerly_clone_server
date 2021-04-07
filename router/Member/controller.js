@@ -53,7 +53,7 @@ exports.findMemberByQuery = async (req, res, next) => {
   const { category, search } = req.query
   let { page } = req.query
   page = page || 0
-  const userSelect = ["name", "role", "userImg"]
+  const userSelect = ["name", "role", "userImg", "followingCnt", "followerCnt"]
 
   if (category) {
     try {
@@ -97,11 +97,12 @@ exports.getUser = async (req, res, next) => {
   const userId = res.locals.user
   if (!isValidObjectId(userId)) return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
   try {
-    const [user, posts] = await Promise.all([
-      User.findById(userId).select(["name", "role"]),
-      Post.find({ recommended: { $in: userId } }).select(["content", "createAt"]),
-    ])
-    return res.send({ result: { user, posts } })
+    const user = await User.findOne({ _id: userId }).select({
+      password: 0,
+      follower: 0,
+      follwing: 0,
+    })
+    return res.send({ result: { user } })
   } catch (err) {
     console.log(err)
     return res.status(400).send({ err: err.message })

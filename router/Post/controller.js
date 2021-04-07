@@ -1,8 +1,16 @@
 const { Post } = require("../../models")
 const { populate } = require("../../models/comment")
 
-const userSelect = ["name", "role", "userImg"]
-const postSelect = ["user", "content", "sharedCnt", "recommendedCnt", "commentCnt", "createdAt"]
+const userSelect = ["name", "role", "userImg", "followerCnt", "followingCnt"]
+const postSelect = [
+  "user",
+  "content",
+  "url",
+  "sharedCnt",
+  "recommendedCnt",
+  "commentCnt",
+  "createdAt",
+]
 
 exports.creatPost = async (req, res, next) => {
   const userId = res.locals.user
