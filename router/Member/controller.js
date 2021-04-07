@@ -118,9 +118,9 @@ exports.UpdateUser = async (req, res, next) => {
   const userId = res.locals.user
   if (!isValidObjectId(userId)) return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
   try {
-    if (req.file.filename) {
-      const userImg = req.file.filename
-      await User.findByIdAndUpdate(userId, userImg, { ...req.body })
+    if (req.file) {
+      const userImg = req.file.path
+      const user = await User.findByIdAndUpdate(userId, { userImg, ...req.body })
     } else {
       await User.findByIdAndUpdate(userId, { ...req.body })
     }
