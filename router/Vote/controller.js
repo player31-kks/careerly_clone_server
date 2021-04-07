@@ -27,8 +27,8 @@ exports.getVote = async (req, res, next) => {
   const vote = await Vote.find({})
     .populate([{ path: "user", select: userSelect }])
     .sort({ updateAt: -1 })
-    .skip(page * 5)
-    .limit(5)
+    .skip(page * 17)
+    .limit(17)
   return res.send({ result: vote })
 }
 
