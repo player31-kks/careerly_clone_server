@@ -3,6 +3,7 @@ const { isValidObjectId } = require("mongoose")
 const { findUserByIdConfig } = require("./MemberConfig")
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
+const nodemailer = require('nodemailer');
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body
@@ -130,8 +131,40 @@ exports.editUser = async (req, res, next) => {
   }
 }
 exports.findPassword = async (req, res, next) => {
-  const { email } = req.body
-  return res.send({ email })
+  const main = async () => {
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: 'careerlycc',
+        pass: 'qlqjs123',
+      },
+    });
+
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+      from: `"WDMA Team"`,
+      to: 'keumks789@naver.com',
+      subject: '커리어리 클론 코딩 비밀번호입니다',
+      text: 'bb',
+      html: `<b>'aa'</b>`,
+    });
+
+    console.log('Message sent: %s', info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+    res.status(200).json({
+      status: 'Success',
+      code: 200,
+      message: 'Sent Auth Email',
+    });
+  };
+
+  main().catch(console.error);
+
+  return res.send({ success: true })
 }
 exports.editPassword = async (req, res, next) => {
   const { email } = req.body
