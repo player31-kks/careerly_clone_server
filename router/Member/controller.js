@@ -1,4 +1,4 @@
-const { User, Post } = require("../../models")
+const { User } = require("../../models")
 const { isValidObjectId } = require("mongoose")
 const { findUserByIdConfig } = require("./MemberConfig")
 require("dotenv").config()
