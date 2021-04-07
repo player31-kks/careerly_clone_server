@@ -27,7 +27,7 @@ class App {
       .catch((err) => console.log(err))
   }
   setMiddleWare() {
-    this.app.use(morgan("dev"))
+    this.app.use(morgan("combined"))
     this.app.use(express.static(path.join(__dirname, "public")))
     this.app.use("/img", express.static(path.join(__dirname, "uploads")))
     this.app.use(express.urlencoded({ extended: false }))
