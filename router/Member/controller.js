@@ -192,6 +192,13 @@ exports.changePassword = async (req, res, next) => {
 }
 
 exports.changeUserImg = async (req, res, next) => {
+  const userId = res.locals.user
   console.log(req.file)
-  return res.send({ success: true })
+  try {
+    await User.findByIdAndUpdate(userId, { userImg: req.file.filename })
+    return res.send({ success: true })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({ err: err.message })
+  }
 }
