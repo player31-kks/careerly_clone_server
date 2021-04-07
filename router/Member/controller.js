@@ -143,8 +143,8 @@ exports.findPassword = async (req, res, next) => {
         pass: process.env.EMAIL_PASS,
       },
     })
-    const userId = res.locals.user
-    const user = await User.findOne({ _id: userId })
+    const { email } = req.body
+    const user = await User.findOne({ email })
     let info = await transporter.sendMail({
       from: `"WDMA Team"`,
       to: `${user.email}`,

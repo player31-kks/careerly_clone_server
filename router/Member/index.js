@@ -15,7 +15,7 @@ MemberRouter.get("/member/:userId", isVaildation, MemeberController.findMemberBy
 MemberRouter.get("/user", isVaildation, MemeberController.getUser)
 MemberRouter.put("/user", isVaildation, MemeberController.UpdateUser)
 MemberRouter.patch("/user", isVaildation, MemeberController.editUser)
-MemberRouter.get("/password", isVaildation, MemeberController.findPassword)
+MemberRouter.post("/password", MemeberController.findPassword)
 // MemberRouter.patch("/password", MemeberController.editPassword)
 
 module.exports = MemberRouter
