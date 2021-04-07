@@ -118,8 +118,7 @@ exports.UpdateUser = async (req, res, next) => {
   const userId = res.locals.user
   if (!isValidObjectId(userId)) return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
   try {
-    const userImg = req.file.filename || "/icon.png"
-    await User.findByIdAndUpdate(userId, userImg, { ...req.body })
+    await User.findByIdAndUpdate(userId, { ...req.body })
     return res.send({ success: true })
   } catch (err) {
     console.log(err)
@@ -190,4 +189,8 @@ exports.changePassword = async (req, res, next) => {
     console.log(err)
     return res.status(400).send({ err: err.message })
   }
+}
+
+exports.UploadUserImg = async (req, res, next) => {
+  return res.send({ result: req.file.path || false })
 }

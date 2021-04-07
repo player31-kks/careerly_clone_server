@@ -14,10 +14,10 @@ MemberRouter.post("/checkEmail", MemeberController.checkEmail)
 MemberRouter.get("/member", isVaildation, MemeberController.findMemberByQuery)
 MemberRouter.get("/member/:userId", isVaildation, MemeberController.findMemberById)
 MemberRouter.get("/user", isVaildation, MemeberController.getUser)
-MemberRouter.put("/user", isVaildation, upload.single("img"), MemeberController.UpdateUser)
+MemberRouter.put("/user", isVaildation, MemeberController.UpdateUser)
 MemberRouter.patch("/user", isVaildation, MemeberController.editUser)
 MemberRouter.post("/password", MemeberController.findPassword)
 MemberRouter.patch("/password", MemeberController.changePassword)
-MemberRouter.post("/user", MemeberController.changeUserImg)
+MemberRouter.post("/img", upload.single("img"), MemeberController.UploadUserImg)
 
 module.exports = MemberRouter
