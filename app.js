@@ -3,20 +3,6 @@ const mongoose = require("mongoose")
 const router = require("./router")
 const morgan = require("morgan")
 const path = require("path")
-const multer = require('multer')
-const upload = multer({
-  storage: multer.diskStorage({
-    // set a localstorage destination
-    destination: (req, file, cb) => {
-      cb(null, 'uploads/');
-    },
-    // convert a file name
-    filename: (req, file, cb) => {
-      cb(null, new Date().valueOf() + path.extname(file.originalname));
-    },
-  }),
-});
-require("dotenv").config()
 class App {
   constructor() {
     this.app = express()
