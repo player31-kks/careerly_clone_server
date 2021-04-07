@@ -100,7 +100,7 @@ exports.getUser = async (req, res, next) => {
     const user = await User.findOne({ _id: userId }).select({
       password: 0,
       follower: 0,
-      follwing: 0,
+      following: 0,
     })
     return res.send({ result: { user } })
   } catch (err) {
@@ -112,7 +112,8 @@ exports.UpdateUser = async (req, res, next) => {
   const userId = res.locals.user
   if (!isValidObjectId(userId)) return res.status(400).send({ err: "유저 아이디 형식이 다릅니다." })
   try {
-    await User.findByIdAndUpdate(userId, { ...req.body })
+    const userImg = req.file.filename || "/icon.png"
+    await User.findByIdAndUpdate(userId, userImg, { ...req.body })
     return res.send({ success: true })
   } catch (err) {
     console.log(err)
@@ -169,3 +170,5 @@ exports.editPassword = async (req, res, next) => {
   const { email } = req.body
   return res.send({ email })
 }
+
+exports.uploadImg = async (req, res, next) => {}
