@@ -35,8 +35,14 @@ exports.addFollow = async (req, res, next) => {
   const { followId } = req.body
   const user = res.locals.user
   const me = await User.findById(user)
-  if(me.following.includes(followId)){
-    return res.status(400).send({err:"이미 팔로잉한 사람은 다시 팔로잉 할수 없습니다."})
+  if (!followId) {
+    return res.status(400).send({ err: "팔로우할 아이디가 없습니다." })
+  }
+  if (followId === user) {
+    return res.status(400).send({ err: "본인을 팔로우 누르셨습니다." })
+  }
+  if (me.following.includes(followId)) {
+    return res.status(400).send({ err: "이미 팔로잉한 사람은 다시 팔로잉 할수 없습니다." })
   }
   try {
     await Promise.all([
@@ -53,8 +59,14 @@ exports.deleteFollow = async (req, res, next) => {
   const { followId } = req.body
   const user = res.locals.user
   const me = await User.findById(user)
-  if(!me.following.includes(followId)){
-    return res.status(400).send({err:"팔로잉 안한 사람은 팔로잉 취소를 할 수 없습니다."})
+  if (!followId) {
+    return res.status(400).send({ err: "팔로우할 아이디가 없습니다." })
+  }
+  if (followId === user) {
+    return res.status(400).send({ err: "본인을 팔로우 누르셨습니다." })
+  }
+  if (!me.following.includes(followId)) {
+    return res.status(400).send({ err: "팔로잉 안한 사람은 팔로잉 취소를 할 수 없습니다." })
   }
   try {
     await Promise.all([
