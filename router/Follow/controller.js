@@ -9,7 +9,7 @@ exports.getFollower = async (req, res, next) => {
         path: "follower",
         select: userSelect,
       })
-      .select(userSelect)
+      .select([...userSelect, "follower"])
     return res.send({ result: user })
   } catch (err) {
     console.log(err)
@@ -24,7 +24,7 @@ exports.getFollowing = async (req, res, next) => {
         path: "following",
         select: userSelect,
       })
-      .select(userSelect)
+      .select([...userSelect, "following"])
     return res.send({ result: user })
   } catch (err) {
     console.log(err)
@@ -34,6 +34,10 @@ exports.getFollowing = async (req, res, next) => {
 exports.addFollow = async (req, res, next) => {
   const { followId } = req.body
   const user = res.locals.user
+  const me = await User.findById(user)
+  if(me.following.includes(followId)){
+    return res.status(400).send({err:"이미 팔로잉한 사람은 다시 팔로잉 할수 없습니다."})
+  }
   try {
     await Promise.all([
       User.findByIdAndUpdate(user, { $push: { following: followId }, $inc: { followingCnt: 1 } }),
@@ -48,6 +52,10 @@ exports.addFollow = async (req, res, next) => {
 exports.deleteFollow = async (req, res, next) => {
   const { followId } = req.body
   const user = res.locals.user
+  const me = await User.findById(user)
+  if(!me.following.includes(followId)){
+    return res.status(400).send({err:"팔로잉 안한 사람은 팔로잉 취소를 할 수 없습니다."})
+  }
   try {
     await Promise.all([
       User.findByIdAndUpdate(user, { $pull: { following: followId }, $inc: { followingCnt: -1 } }),
