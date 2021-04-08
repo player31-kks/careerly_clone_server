@@ -9,7 +9,7 @@ exports.getFollower = async (req, res, next) => {
         path: "follower",
         select: userSelect,
       })
-      .select(userSelect)
+      .select([...userSelect, "follower"])
     return res.send({ result: user })
   } catch (err) {
     console.log(err)
@@ -24,7 +24,7 @@ exports.getFollowing = async (req, res, next) => {
         path: "following",
         select: userSelect,
       })
-      .select(userSelect)
+      .select([...userSelect, "following"])
     return res.send({ result: user })
   } catch (err) {
     console.log(err)
