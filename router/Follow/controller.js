@@ -35,6 +35,9 @@ exports.addFollow = async (req, res, next) => {
   const { followId } = req.body
   const user = res.locals.user
   const me = await User.findById(user)
+  if (!followId) {
+    return res.status(400).send({ err: "팔로우할 아이디가 없습니다." })
+  }
   if (followId === user) {
     return res.status(400).send({ err: "본인을 팔로우 누르셨습니다." })
   }
@@ -56,6 +59,9 @@ exports.deleteFollow = async (req, res, next) => {
   const { followId } = req.body
   const user = res.locals.user
   const me = await User.findById(user)
+  if (!followId) {
+    return res.status(400).send({ err: "팔로우할 아이디가 없습니다." })
+  }
   if (followId === user) {
     return res.status(400).send({ err: "본인을 팔로우 누르셨습니다." })
   }
