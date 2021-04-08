@@ -43,7 +43,6 @@ exports.getPostDetail = async (req, res, next) => {
   try {
     const post = await Post.findById(postId).populate([
       { path: "user", select: userSelect },
-      { path: "recommended", select: userSelect },
       { path: "comment", populate: { path: "user", select: userSelect } },
     ])
     return res.send({ result: post })
