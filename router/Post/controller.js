@@ -32,7 +32,7 @@ exports.getPostByPage = async (req, res, next) => {
   page = page || 0
   const post = await Post.find({})
     .populate([{ path: "user", select: userSelect }])
-    .select(["recommended",...postSelect])
+    .select(["recommended", ...postSelect])
     .sort({ updateAt: -1 })
     .skip(page * 5)
     .limit(5)
@@ -53,7 +53,7 @@ exports.getPostDetail = async (req, res, next) => {
   }
 }
 exports.getRecommendPeople = async (req, res, next) => {
-  const { postId } = req.body
+  const { postId } = req.params
   try {
     const post = await Post.find({ _id: postId })
       .populate({ path: "recommended", select: userSelect })
@@ -98,17 +98,17 @@ exports.recommendPost = async (req, res, next) => {
   const { postId } = req.params
   const userId = res.locals.user
   try {
-    const post = await Post.findOne({_id:postId})
-    if(post.recommended.includes(userId)){
-      return res.status(400).send({err:"추천을 한 사람은 다시 한번 추천할 수 없습니다."})
+    const post = await Post.findOne({ _id: postId })
+    if (post.recommended.includes(userId)) {
+      return res.status(400).send({ err: "추천을 한 사람은 다시 한번 추천할 수 없습니다." })
     }
-      await Post.updateOne({ _id: postId },
-        {
-          $push: { recommended: userId },
-          $inc: { recommendedCnt: 1 },
-        }
-      )
-      return res.send({ success: true })
+    await Post.updateOne({ _id: postId },
+      {
+        $push: { recommended: userId },
+        $inc: { recommendedCnt: 1 },
+      }
+    )
+    return res.send({ success: true })
   } catch (err) {
     console.log(err)
     return res.status(400).send({ err: err.meassage })
@@ -119,18 +119,18 @@ exports.unrecommendPost = async (req, res, next) => {
   const { postId } = req.params
   const userId = res.locals.user
   try {
-    const post = await Post.findOne({_id:postId})
-    if(!post.recommended.includes(userId)){
-      return res.status(400).send({err:"추천을 안한 사람은 추천을 취소할 수 없습니다."})
+    const post = await Post.findOne({ _id: postId })
+    if (!post.recommended.includes(userId)) {
+      return res.status(400).send({ err: "추천을 안한 사람은 추천을 취소할 수 없습니다." })
     }
     await Post.updateOne({ _id: postId },
-        {
-          $pull: { recommended: userId },
-          $inc: { recommendedCnt: -1 },
-        }
-      )
-      return res.send({ success: true })
-    }catch (err) {
+      {
+        $pull: { recommended: userId },
+        $inc: { recommendedCnt: -1 },
+      }
+    )
+    return res.send({ success: true })
+  } catch (err) {
     console.log(err)
     return res.status(400).send({ err: err.meassage })
   }
@@ -138,8 +138,8 @@ exports.unrecommendPost = async (req, res, next) => {
 
 
 exports.sharePost = async (req, res, next) => {
-  const {postId} = req.params
-  await Post.updateOne({_id:postId},{$inc:{ sharedCnt:1 }})
+  const { postId } = req.params
+  await Post.updateOne({ _id: postId }, { $inc: { sharedCnt: 1 } })
   return res.send({ success: true })
 }
 exports.editPost = async (req, res, next) => {

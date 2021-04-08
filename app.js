@@ -28,7 +28,10 @@ class App {
   }
   setMiddleWare() {
     this.app.use(morgan("combined"))
+    // 스태틱 사용을 위한 경로 설정
     this.app.use(express.static(path.join(__dirname, "uploads")))
+
+    // 프로필 사진 업로드 때 사용하기 위한 경로 설정
     this.app.use("/img", express.static(path.join(__dirname, "uploads")))
     this.app.use(express.urlencoded({ extended: false }))
     this.app.use(express.json())
