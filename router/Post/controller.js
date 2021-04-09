@@ -54,7 +54,7 @@ exports.getPostDetail = async (req, res, next) => {
 exports.getRecommendPeople = async (req, res, next) => {
   const { postId } = req.params
   try {
-    const post = await Post.find({ _id: postId })
+    const post = await Post.findOne({ _id: postId })
       .populate({ path: "recommended", select: userSelect })
       .select(["recommended", "recommendedCnt"])
     return res.send({ result: post })
@@ -101,7 +101,8 @@ exports.recommendPost = async (req, res, next) => {
     if (post.recommended.includes(userId)) {
       return res.status(400).send({ err: "추천을 한 사람은 다시 한번 추천할 수 없습니다." })
     }
-    await Post.updateOne({ _id: postId },
+    await Post.updateOne(
+      { _id: postId },
       {
         $push: { recommended: userId },
         $inc: { recommendedCnt: 1 },
@@ -122,7 +123,8 @@ exports.unrecommendPost = async (req, res, next) => {
     if (!post.recommended.includes(userId)) {
       return res.status(400).send({ err: "추천을 안한 사람은 추천을 취소할 수 없습니다." })
     }
-    await Post.updateOne({ _id: postId },
+    await Post.updateOne(
+      { _id: postId },
       {
         $pull: { recommended: userId },
         $inc: { recommendedCnt: -1 },
@@ -134,7 +136,6 @@ exports.unrecommendPost = async (req, res, next) => {
     return res.status(400).send({ err: err.meassage })
   }
 }
-
 
 exports.sharePost = async (req, res, next) => {
   const { postId } = req.params

@@ -20,13 +20,14 @@ class App {
         useCreateIndex: true,
         ignoreUndefined: true,
         useFindAndModify: false,
-        // user: process.env.DB_USER,
-        // pass: process.env.DB_PASS,
+        user: process.env.DB_USER,
+        pass: process.env.DB_PASS,
       })
       .then(() => console.log("db connected"))
       .catch((err) => console.log(err))
   }
   setMiddleWare() {
+    // 서버에 들어오는 정보를 파악하기 위한 middleware
     this.app.use(morgan("combined"))
     // 스태틱 사용을 위한 경로 설정
     this.app.use(express.static(path.join(__dirname, "uploads")))

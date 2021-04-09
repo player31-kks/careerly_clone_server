@@ -4,6 +4,12 @@ const { User } = require("../models")
 const axios = require("axios")
 const URI = "http://52.79.227.130"
 
+/**
+ * faker.js
+ * 더미 데이터를 생성해주는 라이브러리를 사용
+ * 유저 데이터 DB에 생성 후 생성된 유저로 axios 요청을 통해 직접 Post 와 Comment를 무작위 생성
+ */
+
 generateFakeData = async (userCount, blogsPerUser, commentsPerUser) => {
   try {
     if (typeof userCount !== "number" || userCount < 1)
@@ -17,6 +23,7 @@ generateFakeData = async (userCount, blogsPerUser, commentsPerUser) => {
     let blogs = []
     let comments = []
 
+    // User 데이터 생성
     for (let i = 0; i < userCount; i++) {
       users.push(
         new User({
@@ -33,6 +40,7 @@ generateFakeData = async (userCount, blogsPerUser, commentsPerUser) => {
     await User.insertMany(users)
     console.log(`${users.length} fake users generated!`)
 
+    // 각 해당하는 User에 대해서 axios를 통해 서버 API 호출 무작위 Post 생성
     users.map((user) => {
       for (let i = 0; i < blogsPerUser; i++) {
         blogs.push(
@@ -44,10 +52,10 @@ generateFakeData = async (userCount, blogsPerUser, commentsPerUser) => {
         )
       }
     })
-
     let newBlogs = await Promise.all(blogs)
     console.log(`${newBlogs.length} fake blogs generated!`)
 
+    // 각 해당하는 User에 대해서 axios를 통해 서버 API 호출 무작위 Post에 대해서 Comment 생성
     users.map((user) => {
       for (let i = 0; i < commentsPerUser; i++) {
         let index = Math.floor(Math.random() * blogs.length)
@@ -59,8 +67,8 @@ generateFakeData = async (userCount, blogsPerUser, commentsPerUser) => {
         )
       }
     })
-
     await Promise.all(comments)
+
     console.log(`${comments.length} fake comments generated!`)
     console.log("COMPLETE!!")
   } catch (err) {

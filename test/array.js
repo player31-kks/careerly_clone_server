@@ -1,4 +1,5 @@
-const postSelect = [
+test("배열의 구조 분해 확인을 위한 테스트", () => {
+  const postSelect = [
     "user",
     "content",
     "url",
@@ -6,5 +7,16 @@ const postSelect = [
     "recommendedCnt",
     "commentCnt",
     "createdAt",
-]
-console.log(["recommended",...postSelect])
+  ]
+  const postSelectCheck = [
+    "user",
+    "content",
+    "url",
+    "sharedCnt",
+    "recommendedCnt",
+    "commentCnt",
+    "createdAt",
+    "recommended",
+  ]
+  expect(["recommended", ...postSelect]).toBe(postSelectCheck)
+})

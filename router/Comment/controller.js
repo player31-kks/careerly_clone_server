@@ -1,5 +1,4 @@
-const { Comment, Post, Vote, User } = require("../../models")
-const { isValidObjectId } = require("mongoose")
+const { Comment, Post } = require("../../models")
 
 exports.postComment = async (req, res, next) => {
   const userId = res.locals.user
