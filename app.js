@@ -3,6 +3,8 @@ const mongoose = require("mongoose")
 const router = require("./router")
 const morgan = require("morgan")
 const path = require("path")
+const passport = require("passport")
+const passportConfig = require("./Auth")
 class App {
   constructor() {
     this.app = express()
@@ -20,8 +22,8 @@ class App {
         useCreateIndex: true,
         ignoreUndefined: true,
         useFindAndModify: false,
-        user: process.env.DB_USER,
-        pass: process.env.DB_PASS,
+        // user: process.env.DB_USER,
+        // pass: process.env.DB_PASS,
       })
       .then(() => console.log("db connected"))
       .catch((err) => console.log(err))
@@ -31,7 +33,8 @@ class App {
     this.app.use(morgan("combined"))
     // 스태틱 사용을 위한 경로 설정
     this.app.use(express.static(path.join(__dirname, "uploads")))
-
+    this.app.use(passport.initialize())
+    passportConfig()
     // 프로필 사진 업로드 때 사용하기 위한 경로 설정
     this.app.use("/img", express.static(path.join(__dirname, "uploads")))
     this.app.use(express.urlencoded({ extended: false }))

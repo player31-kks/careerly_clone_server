@@ -1,4 +1,5 @@
-// Member에 대한 정보를 선택적으로 구성하기 위해서
+// Member에 대한 정보를 선택적으로 구성하기 위해서 배열 생성
+// model.select([...findUserByIdConfig])
 const findUserByIdConfig = {
   email: 0,
   password: 0,

@@ -2,8 +2,9 @@ const { Router } = require("express")
 const router = Router()
 const isVaildation = require("../middlewares/vaildations")
 
-// 아이피 뒤에 첫 주소가 붙는 인덱스 코드
-// 멤버에는 로그인 회원가입 등이 있다.
+/**
+ * Member,Post,Comment,Follow,Vote 폴더를 구성해 파일 분리
+ */
 router.use("/", require("./Member"))
 router.use("/post", isVaildation, require("./Post"))
 router.use("/comment", isVaildation, require("./Comment"))

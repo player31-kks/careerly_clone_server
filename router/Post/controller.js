@@ -12,6 +12,14 @@ const postSelect = [
   "createdAt",
 ]
 
+/**
+ * Post에 대한 CRUD
+ * 전체 게시물, 내 전용 페이지에 대한 게시물
+ * 추천하기, 공유하기 기능이 존재
+ * 로그인 한 후의 기능이기 때문에 vaildation을 거쳐야함
+ *
+ */
+
 exports.creatPost = async (req, res, next) => {
   const userId = res.locals.user
   const { content, url } = req.body
