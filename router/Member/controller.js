@@ -5,6 +5,12 @@ require("dotenv").config()
 const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer")
 
+/**
+ * User에 대한 CRUD
+ * 로그인,회원가입,이메일 체크
+ * 로그인 한 후의 기능이기 때문에 vaildation을 거쳐야함
+ */
+
 // jwt 사용한 로그인과 회원가입
 exports.login = async (req, res, next) => {
   const { email, password } = req.body
@@ -53,6 +59,8 @@ exports.checkEmail = async (req, res, next) => {
   }
 }
 
+// category query는 직함을 기준으로 찾는다
+// search query는 이름을 기준으로 찾는다 (정규표현식을 사용) 한글짜라도 일치하면 찾음.
 exports.findMemberByQuery = async (req, res, next) => {
   const { category, search } = req.query
   let { page } = req.query
@@ -145,6 +153,7 @@ exports.editUser = async (req, res, next) => {
   }
 }
 
+// nodemailer를 이용해서 이메일로 비밀번호를 전달해줌
 exports.findPassword = async (req, res, next) => {
   console.log(process.env.EMAIL_USER, process.env.EMAIL_PASS)
   const main = async () => {

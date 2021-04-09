@@ -1,6 +1,12 @@
 const { Comment, Post } = require("../../models")
 
-exports.postComment = async (req, res, next) => {
+/**
+ * Comment에 대한 CRUD
+ * 로그인 한 후의 기능이기 때문에 vaildation을 거쳐야함
+ * careely에서 댓글 수정 및 삭제가 존재하지 않아서 U,D는 구현하고 주석처리함
+ */
+
+exports.createComment = async (req, res, next) => {
   const userId = res.locals.user
   const { postId } = req.params
   const { content } = req.body
@@ -12,6 +18,8 @@ exports.postComment = async (req, res, next) => {
     user: userId,
   })
   try {
+    // Comment 생성 과 Post 생성을 동시에 함
+    // post Update시 comment에 넣고 CommnetCnt 증가
     await Promise.all([
       NewComment.save(),
       Post.updateOne(

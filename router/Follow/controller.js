@@ -1,5 +1,11 @@
 const { User } = require("../../models/")
+// user에 대한 선택적인 정보를 가지기 위해서 설정
 const userSelect = ["name", "role", "userImg", "followerCnt", "followingCnt"]
+
+/**
+ * Follow에 대한 CRUD
+ * 로그인 한 후의 기능이기 때문에 vaildation을 거쳐야함
+ */
 
 exports.getFollower = async (req, res, next) => {
   const { userId } = req.params
@@ -31,7 +37,7 @@ exports.getFollowing = async (req, res, next) => {
     return res.status(400).send({ err: err.message })
   }
 }
-exports.addFollow = async (req, res, next) => {
+exports.Follow = async (req, res, next) => {
   const { followId } = req.body
   const user = res.locals.user
   const me = await User.findById(user)
@@ -55,7 +61,7 @@ exports.addFollow = async (req, res, next) => {
     return res.status(400).send({ err: err.message })
   }
 }
-exports.deleteFollow = async (req, res, next) => {
+exports.unFollow = async (req, res, next) => {
   const { followId } = req.body
   const user = res.locals.user
   const me = await User.findById(user)

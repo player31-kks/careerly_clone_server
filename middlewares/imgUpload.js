@@ -1,3 +1,4 @@
+// 프로필 사진 업로드를 위한 미들웨어
 const path = require("path")
 const multer = require("multer")
 const upload = multer({

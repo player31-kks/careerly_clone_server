@@ -1,6 +1,12 @@
 const { Vote } = require("../../models")
 const userSelect = ["name", "role", "userImg"]
 
+/**
+ * Vote 대한 CRU
+ * 로그인 한 후의 기능이기 때문에 vaildation을 거쳐야함
+ *
+ */
+
 exports.creatVote = async (req, res, next) => {
   const userId = res.locals.user
   const { title, description } = req.body
@@ -21,13 +27,13 @@ exports.creatVote = async (req, res, next) => {
 }
 
 exports.getVote = async (req, res, next) => {
-  try{
+  try {
     const vote = await Vote.find({})
-    .populate([{ path: "user", select: userSelect }])
-    .sort({ updateAt: -1 })
-    .limit(17)
-  return res.send({ result: vote })
-  }catch(err){
+      .populate([{ path: "user", select: userSelect }])
+      .sort({ updateAt: -1 })
+      .limit(17)
+    return res.send({ result: vote })
+  } catch (err) {
     console.log(err)
     return res.status(400).send({ err: err.meassage })
   }
