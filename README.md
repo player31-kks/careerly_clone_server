@@ -47,19 +47,12 @@ Hoxy~🤔 함께 성장할 동료(Coworkers) 찾으시나요👀<br>
     
     ![](https://img.shields.io/badge/ReactNative-이다은-blue?style=for-the-badge)
     
-    ![](https://img.shields.io/badge/ReactNative-주형인-blue?style=for-the-badge)
     
   - **BACKEND** 
-
-     ![](https://img.shields.io/badge/Node.js-유지윤-blue?style=for-the-badge)
      
      ![](https://img.shields.io/badge/Node.js-금교석-blue?style=for-the-badge)
      
      ![](https://img.shields.io/badge/Node.js-박현준-blue?style=for-the-badge)
-     
-  - **DESIGN** 
-
-    ![](https://img.shields.io/badge/UI/UX-성유진-green?style=for-the-badge)
 <hr>
 
 ## 🎯 타겟층
