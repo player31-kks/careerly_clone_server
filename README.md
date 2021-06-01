@@ -22,8 +22,6 @@
 <hr>
 
 ## 🎥 시연 영상
-https://www.youtube.com/watch?v=CHOEWGQJMfU&t=29s
-
 [![Video Label](http://img.youtube.com/vi/CHOEWGQJMfU/0.jpg)](https://www.youtube.com/watch?v=CHOEWGQJMfU)
 <hr>
 
