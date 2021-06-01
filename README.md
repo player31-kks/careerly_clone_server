@@ -27,8 +27,6 @@ https://www.youtube.com/watch?v=CHOEWGQJMfU&t=29s
 
 [![Video Label](http://img.youtube.com/vi/CHOEWGQJMfU/0.jpg)](https://www.youtube.com/watch?v=CHOEWGQJMfU)
 
-[![Video Label](https://user-images.githubusercontent.com/71073823/120268513-eaa3d380-c2e0-11eb-9db0-ad9aba4541d1.png)](https://www.youtube.com/watch?v=CHOEWGQJMfU)
-
 ## ⚒️개발 스펙
 **✨Node.js✨**<br>
 
