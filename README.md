@@ -24,7 +24,7 @@ Hoxy~🤔 함께 성장할 동료(Coworkers) 찾으시나요👀<br>
 - 팀원
   - **CLIENT**
     
-    ![](https://img.shields.io/badge/ReactNative-이다은-blue?style=for-the-badge)
+    ![](https://img.shields.io/badge/ReactNative-이다은-red?style=for-the-badge)
     
     
   - **BACKEND** 
