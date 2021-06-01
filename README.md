@@ -76,7 +76,7 @@ const UserSchema = new Schema(
 const nodemailer = require("nodemailer")
 
     let info = await transporter.sendMail({
-      from: `"WDMA Team"`,
+      from: `"CC Team"`,
       to: `${user.email}`,
       subject: "커리어리 클론 코딩 비밀번호입니다",
       text: "ㅠㅠ",
