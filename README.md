@@ -13,7 +13,7 @@
   - **CLIENT**
     
     ![](https://img.shields.io/badge/ReactNative-이다은-red?style=for-the-badge)
-    ![](https://img.shields.io/badge/ReactNative--red?style=for-the-badge)
+    ![](https://img.shields.io/badge/ReactNative-노화성-red?style=for-the-badge)
     
     https://github.com/delilah1004/Careerly_Clone
     
