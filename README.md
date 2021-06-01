@@ -55,16 +55,6 @@ Hoxy~🤔 함께 성장할 동료(Coworkers) 찾으시나요👀<br>
      ![](https://img.shields.io/badge/Node.js-박현준-blue?style=for-the-badge)
 <hr>
 
-## 🎯 타겟층
-- “개발자, 디자이너, 기획자“를 꿈꾸지만, 함께 공부하고 이야기 나눌 친구가 없어 고민인 분들!
-
-- 네카라쿠배 면접 스터디는 어디있을까? 정보가 부족해 커뮤니티가 절실한 취준생!
-
-- 나만의 포트폴리오를 위해, 프로젝트 팀원을 어디서 구해야 할 지 막막한 분들!
-
-- 가까운 동네에서, 원하는 지역에서 다양한 모임을 구하고 싶은 분들!
-<hr>
-
 ## 🎥 시연 영상
 https://www.youtube.com/watch?v=CHOEWGQJMfU&t=29s
 <hr>
