@@ -44,7 +44,6 @@ https://www.youtube.com/watch?v=CHOEWGQJMfU&t=29s
 
 데이터베이스 : **MongoDB**
 
-배포 : **AWS , S3(이미지)**
 ![커리어리](https://user-images.githubusercontent.com/57718605/120266994-078ad780-c2de-11eb-82eb-f408464e811c.PNG)
 
 ## ✨프로젝트 중 고민한 부분✨
