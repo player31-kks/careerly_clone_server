@@ -64,46 +64,34 @@ const UserSchema = new Schema(
 )
 ```
 
-### 2. UTC 타임 문제 (스케줄링 관련)
-모임의 시작 시간과 종료 시간을 받고, 모임 시작일이 지난 게시물의 경우에는 스케줄링을 통하여 상태를 변경시켜야 했다.
+### 2. 비밀번호 찾기 구현
+비밀번호 찾기를 할 시에 어떻게 비밀번호를 사용자에게 전달하는 방식이 고민되었습니다.
 
-Node.js에서는 기본적으로 **UTC-0**을 기준으로 작동을 하였기에, 우리가 원하는 스케줄링을 위해서는 이에 관련한 고려가 필요했다.
+문자메세지로 보내고 싶었지만, 실제 돈이 들 수 있다는 사실 때문에 망설여졌습니다.
 
-클라이언트와 백엔드 모두 UTC-0을 기준으로 로직을 전체적으로 가다듬고, 14:59에 스케줄링을 진행하는 것으로 문제를 해결했다.
+결과적으로 저희는 노드메일러를 사용하여 이메일로 비밀번호를 전송하는 방법을 선택했습니다.
 
-![UTC-0](https://user-images.githubusercontent.com/61581033/120128458-fa49ec00-c1fc-11eb-8c72-1ebe7015a797.jpeg)
+```tsx
 
+const nodemailer = require("nodemailer")
 
-
-### 3. 타입 스크립트에서의 multer-s3-transform 
-multer-s3-transform 을 쓰려고 했지만 npm에 node-js는 지원을 하지만 typescript는 지원을 하지 않는다.
-
-일단 코드에 적용을 시켜보니까 해당 모듈의 타입 지정이 되어있지 않은 오류가 났기 때문에, 잘 작동하는 다른 모듈을 대조해서 타입을 지정하는 파일을 작성했다. 
-
-해당 파일을 @Types폴더에 넣은 결과 정상적으로 작동이 되었다.
-
-```jsx
-interface Options {
-    s3: AWS.S3;
-    bucket: ((req: Express.Request, file: Express.Multer.File, callback: (error: any, bucket?: string) => void) => void) | string;
-    key?(req: Express.Request, file: Express.Multer.File, callback: (error: any, key?: string) => void): void;
-    acl?: ((req: Express.Request, file: Express.Multer.File, callback: (error: any, acl?: string) => void) => void) | string;
-    contentType?(req: Express.Request, file: Express.Multer.File, callback: (error: any, mime?: string, stream?: NodeJS.ReadableStream) => void): void;
-    shouldTransform?: ((req: Express.Request, file: Express.Multer.File, callback: (error: any, shouldTransform?: boolean) => void) => void) | boolean;
-    transforms: [
-        {
-            id: string,
-            key: (req: Express.Request, file: Express.Multer.File, callback: (error: any, key?: string) => void) => void,
-            transform: (req: Express.Request, file: Express.Multer.File, callback: (error: any, key?: function) => void) => void
-        }
-    ]
-    contentDisposition?: ((req: Express.Request, file: Express.Multer.File, callback: (error: any, contentDisposition?: string) => void) => void) | string;
-    metadata?(req: Express.Request, file: Express.Multer.File, callback: (error: any, metadata?: any) => void): void;
-    cacheControl?: ((req: Express.Request, file: Express.Multer.File, callback: (error: any, cacheControl?: string) => void) => void) | string;
-    serverSideEncryption?: ((req: Express.Request, file: Express.Multer.File, callback: (error: any, serverSideEncryption?: string) => void) => void) | string;
-}
+    let info = await transporter.sendMail({
+      from: `"WDMA Team"`,
+      to: `${user.email}`,
+      subject: "커리어리 클론 코딩 비밀번호입니다",
+      text: "ㅠㅠ",
+      html: `<b>${user.password}</b>`,
+    })
+    console.log("Message sent: %s", info.messageId)
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Sent Auth Email",
+    })
 ```
 
+다음에 기회가 된다면 문자메세지로 전달하는 방식, 또는 비밀번호 수정페이지의 링크를 전달하는 방식 등을
+적용해보고 싶다고 생각했습니다.
 
 
 <!-- start with
