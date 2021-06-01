@@ -23,9 +23,9 @@
 
 ## 🎥 시연 영상
 https://www.youtube.com/watch?v=CHOEWGQJMfU&t=29s
-<hr>
 
 [![Video Label](http://img.youtube.com/vi/CHOEWGQJMfU/0.jpg)](https://www.youtube.com/watch?v=CHOEWGQJMfU)
+<hr>
 
 ## ⚒️개발 스펙
 **✨Node.js✨**<br>
