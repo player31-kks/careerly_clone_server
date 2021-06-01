@@ -25,6 +25,7 @@
 
 ## 🎥 시연 영상
 [![Video Label](http://img.youtube.com/vi/CHOEWGQJMfU/0.jpg)](https://www.youtube.com/watch?v=CHOEWGQJMfU)
+*클릭!
 <hr>
 
 ## ⚒️개발 스펙
