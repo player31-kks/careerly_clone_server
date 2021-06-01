@@ -42,28 +42,33 @@ https://www.youtube.com/watch?v=CHOEWGQJMfU&t=29s
 ![커리어리](https://user-images.githubusercontent.com/57718605/120266994-078ad780-c2de-11eb-82eb-f408464e811c.PNG)
 
 ## ✨프로젝트 중 고민한 부분✨
-### 1. 오프라인 상태에서 채팅보내기
+### 1. following follower 구현하기
 
-소켓이 연결된 상태에서 메세지를 저장하게 된다면 오프라인 상태에서는 소켓이 연결되지 않으므로 메세지를 받기 힘들다.
+처음 구현시 following follower 각각 document를 만들어서 userId에 대응하는 사람을 따로 관리하려 했지만 
 
-따라서 API를 통해 채팅 기록을 데이터베이스에 저장하게 된다면 오프라인 상태에서도 message를 나중에 열람이 가능하다.
+following follower에 대해 클라이언트 측이 많은 필요로 했었고, 
+
+2번이나 document를 접근하는 것이 불필요한 작업이라고 생각했습니다. 
+
+따라서 User document에 follwing follower field list 값으로 설정하면서 간단한 코드로 기능을 구현했다.
 
 ```tsx
-private createChat: RequestHandler = async (req, res, next) => {
-    const userId = res.locals.user;
-    const chatData: Chat = req.body;
-    const { roomId } = req.params;
-    if (!Types.ObjectId.isValid(roomId)) next(new Error("오브젝트 아이디가 아닙니다"));
 
-    try {
-      const chat = await this.chatService.creatChat(chatData, userId, roomId);
-      // 여기를 통해 소켓에서 메세지를 보낸다.
-      req.app.get("io").of("/chat").to(roomId).emit("chat", chat);
-      return res.send({ result: "success" });
-    } catch (err) {
-      next(err);
-    }
-  };
+const UserSchema = new Schema(
+		// ... 생략했습니다.
+    // follower: 사용자를 팔로우하는 사용자 id
+    // following: 사용자가 팔로우하는 사용자 id
+    follower: { type: [{ type: Types.ObjectId, ref: "User" }] },
+    following: { type: [{ type: Types.ObjectId, ref: "User" }] },
+    // followerCnt, followingCnt: 각각 팔로워와 팔로잉의 수
+    // 사용자가 팔로우를 할 때 본인의 팔로잉, 상대방의 팔로워 카운트를 올린다
+    followerCnt: { type: Number, default: 0, required: true },
+    followingCnt: { type: Number, default: 0, required: true },
+  },
+  {
+    timestamps: true,
+  }
+)
 ```
 
 ### 2. UTC 타임 문제 (스케줄링 관련)
