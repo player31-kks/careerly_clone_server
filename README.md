@@ -30,7 +30,6 @@ Hoxy~🤔 함께 성장할 동료(Coworkers) 찾으시나요👀<br>
   - **BACKEND** 
      
      ![](https://img.shields.io/badge/Node.js-금교석-blue?style=for-the-badge)
-     
      ![](https://img.shields.io/badge/Node.js-박현준-blue?style=for-the-badge)
 <hr>
 
