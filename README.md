@@ -26,7 +26,7 @@ Hoxy~🤔 함께 성장할 동료(Coworkers) 찾으시나요👀<br>
 기획자, 개발자, 디자이너 동료들을 모코모코(MocoMoco)에서 찾아보세요✨<br>
 
 모코모코는 함께 스터디 또는 프로젝트 등을 하면서 성장할 동료를 찾는 어플리케이션입니다!<br><br>
-![모코모코_썸네일](https://user-images.githubusercontent.com/61581033/119843393-7b298f00-bf42-11eb-8abb-a768e0ebb8c9.png)
+![커리어리 목업](https://user-images.githubusercontent.com/71073823/120266720-7156b180-c2dd-11eb-8b78-6318d87ef133.jpg)
 
 
 ## 🤔 기획 의도
