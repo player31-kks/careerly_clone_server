@@ -45,7 +45,7 @@ https://www.youtube.com/watch?v=CHOEWGQJMfU&t=29s
 데이터베이스 : **MongoDB**
 
 배포 : **AWS , S3(이미지)**
-<img width="1599" alt="스크린샷 2021-05-28 오전 12 29 12" src="https://user-images.githubusercontent.com/61581033/119854155-cdbb7900-bf4b-11eb-82ad-aca53b97f83b.png">
+![커리어리](https://user-images.githubusercontent.com/57718605/120266994-078ad780-c2de-11eb-82eb-f408464e811c.PNG)
 
 ## ✨프로젝트 중 고민한 부분✨
 ### 1. 오프라인 상태에서 채팅보내기
