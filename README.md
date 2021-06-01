@@ -14,6 +14,7 @@
     
     ![](https://img.shields.io/badge/ReactNative-이다은-red?style=for-the-badge)
     
+    https://github.com/delilah1004/Careerly_Clone
     
   - **BACKEND** 
      
