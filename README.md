@@ -45,7 +45,7 @@ following follower에 대해 클라이언트 측이 많은 필요로 했었고,
 
 2번이나 document를 접근하는 것이 불필요한 작업이라고 생각했습니다. 
 
-따라서 User document에 follwing follower field list 값으로 설정하면서 간단한 코드로 기능을 구현했다.
+따라서 User document에 follwing follower field list 값으로 설정하면서 간단한 코드로 기능을 구현했.
 
 ```tsx
 
