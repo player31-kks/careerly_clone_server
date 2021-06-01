@@ -65,18 +65,14 @@ Hoxy~🤔 함께 성장할 동료(Coworkers) 찾으시나요👀<br>
 - 가까운 동네에서, 원하는 지역에서 다양한 모임을 구하고 싶은 분들!
 <hr>
 
-## 💖 어플리케이션 다운로드 링크
-https://play.google.com/store/apps/details?id=com.teammocomoco.android.mocomoco
-<hr>
-
 ## 🎥 시연 영상
-https://www.youtube.com/watch?v=Q2pUbG6HHnw
+https://www.youtube.com/watch?v=CHOEWGQJMfU&t=29s
 <hr>
 
 ## ⚒️개발 스펙
 **✨Node.js✨**<br>
 
-개발 언어 : **Typescript**
+개발 언어 : **javascript**
 
 데이터베이스 : **MongoDB**
 
